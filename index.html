@@ -8,17 +8,17 @@
   <style>
     :root {
       color-scheme: dark;
-      --bg: #0b0f1a;
-      --bg-soft: #121a2a;
-      --glass: rgba(16, 23, 38, 0.78);
-      --glass-strong: rgba(23, 32, 50, 0.9);
-      --glass-border: rgba(120, 140, 190, 0.25);
-      --text: #e8efff;
-      --text-dark: #e8efff;
-      --muted: rgba(232, 239, 255, 0.68);
-      --muted-dark: rgba(190, 204, 233, 0.7);
-      --accent: #8ab4ff;
-      --accent-dark: #071022;
+      --bg: #101216;
+      --bg-soft: #181c23;
+      --glass: rgba(23, 26, 33, 0.86);
+      --glass-strong: rgba(28, 32, 40, 0.92);
+      --glass-border: rgba(120, 130, 155, 0.28);
+      --text: #e6e8ec;
+      --text-dark: #e6e8ec;
+      --muted: rgba(216, 219, 226, 0.68);
+      --muted-dark: rgba(196, 201, 212, 0.7);
+      --accent: #aeb6ff;
+      --accent-dark: #141620;
     }
 
     * {
@@ -29,9 +29,9 @@
 
     body {
       font-family: 'Montserrat', sans-serif;
-      background: radial-gradient(circle at 15% 20%, rgba(88, 112, 180, 0.25) 0%, transparent 45%),
-        radial-gradient(circle at 85% 15%, rgba(45, 70, 120, 0.3) 0%, transparent 45%),
-        linear-gradient(135deg, #070b15, #0f1728 55%, #131e32 100%);
+      background: radial-gradient(circle at 18% 18%, rgba(70, 76, 92, 0.35) 0%, transparent 45%),
+        radial-gradient(circle at 78% 12%, rgba(54, 58, 72, 0.4) 0%, transparent 45%),
+        linear-gradient(135deg, #0c0e12, #12151b 55%, #1a1f27 100%);
       color: var(--text);
       line-height: 1.6;
       min-height: 100vh;
@@ -74,8 +74,8 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at 20% 15%, rgba(96, 125, 200, 0.28), transparent 45%),
-        radial-gradient(circle at 80% 20%, rgba(60, 90, 160, 0.35), transparent 40%);
+      background: radial-gradient(circle at 20% 15%, rgba(90, 96, 120, 0.35), transparent 45%),
+        radial-gradient(circle at 80% 20%, rgba(70, 78, 102, 0.4), transparent 40%);
       opacity: 0.8;
       pointer-events: none;
     }
@@ -309,7 +309,7 @@
       font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      background: rgba(120, 150, 220, 0.25);
+      background: rgba(110, 120, 150, 0.25);
       color: var(--text);
     }
 
@@ -368,7 +368,7 @@
       width: 42px;
       height: 3px;
       transform: translateX(-50%);
-      background: #e05b5b;
+      background: #a3abff;
       border-radius: 999px;
     }
 
@@ -519,7 +519,7 @@
 
     .price {
       font-weight: 700;
-      color: #b6ccff;
+      color: #c8ccda;
     }
 
     .table-cta {
@@ -603,6 +603,101 @@
       height: 1px;
       background: rgba(120, 140, 190, 0.25);
       margin: 32px 0;
+    }
+
+    .pricing-grid {
+      display: grid;
+      gap: 22px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+
+    .pricing-card {
+      border-radius: 28px;
+      padding: 26px 24px 28px;
+      display: grid;
+      gap: 18px;
+      color: var(--text-dark);
+      background: rgba(22, 24, 31, 0.9);
+      border: 1px solid rgba(96, 104, 128, 0.45);
+      box-shadow: 0 30px 50px rgba(6, 8, 12, 0.55);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pricing-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(50, 56, 72, 0.18), transparent 55%);
+      pointer-events: none;
+    }
+
+    .pricing-card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .pricing-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      font-size: 12px;
+      background: rgba(50, 54, 70, 0.7);
+      border: 1px solid rgba(100, 108, 132, 0.6);
+      color: var(--text);
+      box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.06);
+      width: fit-content;
+    }
+
+    .pricing-meta {
+      color: var(--muted-dark);
+      font-size: 15px;
+    }
+
+    .pricing-price {
+      font-size: clamp(32px, 4vw, 44px);
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: 0.4px;
+    }
+
+    .pricing-list {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+      color: var(--muted-dark);
+    }
+
+    .pricing-list li {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pricing-list li::before {
+      content: '✓';
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(46, 50, 64, 0.8);
+      border: 1px solid rgba(100, 108, 132, 0.5);
+      display: grid;
+      place-items: center;
+      color: var(--text);
+      font-size: 12px;
+      box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.06);
+    }
+
+    .pricing-card.featured {
+      background: rgba(28, 32, 42, 0.95);
+      border-color: rgba(138, 148, 180, 0.6);
+      transform: translateY(-8px);
     }
 
     footer {
@@ -854,62 +949,47 @@
     </section>
 
     <section class="section">
-      <h2 class="section-title">Услуги и цены</h2>
-      <p class="section-subtitle">Прозрачно, как в зале. Все форматы обновляемы и связаны с реальным результатом.</p>
-      <table class="pricing-table">
-        <thead>
-          <tr>
-            <th>Формат</th>
-            <th>Цена</th>
-            <th>Что входит</th>
-            <th>Действие</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Группа</strong> (12 занятий)</td>
-            <td class="price">9 000 ₽</td>
-            <td>Техника, функционал, контроль прогресса</td>
-            <td><a class="table-cta" href="tel:+79000000000">Оплатить / бронь</a></td>
-          </tr>
-          <tr>
-            <td><strong>Безлимит</strong></td>
-            <td class="price">15 000 ₽</td>
-            <td>Все группы, гибкое расписание, приоритетные слоты</td>
-            <td><a class="table-cta" href="tel:+79000000000">Оплатить / бронь</a></td>
-          </tr>
-          <tr>
-            <td><strong>Разовое</strong></td>
-            <td class="price">1 200 ₽</td>
-            <td>Оценка уровня, разбор техники, план на 1 неделю</td>
-            <td><a class="table-cta" href="tel:+79000000000">Оплатить / бронь</a></td>
-          </tr>
-          <tr>
-            <td><strong>Персональная</strong></td>
-            <td class="price">5 000 ₽</td>
-            <td>Индивидуальный план, корректировка каждой сессии</td>
-            <td><a class="table-cta" href="tel:+79000000000">Оплатить / бронь</a></td>
-          </tr>
-          <tr>
-            <td><strong>Детские группы</strong></td>
-            <td class="price">9 000 ₽</td>
-            <td>Безопасность, дисциплина, отчётность</td>
-            <td><a class="table-cta" href="tel:+79000000000">Оплатить / бронь</a></td>
-          </tr>
-          <tr>
-            <td><strong>«Тренировка мечты»</strong> (3 тренера)</td>
-            <td class="price">9 999 ₽</td>
-            <td>Техника, функционал, разбор ошибок на видео</td>
-            <td><a class="table-cta" href="tel:+79000000000">Оплатить / бронь</a></td>
-          </tr>
-          <tr>
-            <td><strong>«Лучший друг»</strong> (премиум-сервис)</td>
-            <td class="price">100 000 ₽</td>
-            <td>Личный куратор, полное сопровождение, закрытые сборы</td>
-            <td><a class="table-cta" href="tel:+79000000000">Оплатить / бронь</a></td>
-          </tr>
-        </tbody>
-      </table>
+      <h2 class="section-title">Тарифы и пакеты</h2>
+      <p class="section-subtitle">Выберите формат, похожий на референс: мягкий старт, быстрый прогресс и максимум сервиса.</p>
+      <div class="pricing-grid">
+        <article class="pricing-card">
+          <div class="pricing-pill">Start</div>
+          <div>
+            <div class="pricing-meta">Для аккуратного старта</div>
+            <div class="pricing-price">4 занятия</div>
+          </div>
+          <ul class="pricing-list">
+            <li>Персональный план</li>
+            <li>Чат-поддержка</li>
+          </ul>
+          <div class="pricing-price">13 590 ₽</div>
+        </article>
+        <article class="pricing-card featured">
+          <div class="pricing-pill">Pro</div>
+          <div>
+            <div class="pricing-meta">Быстрый прогресс</div>
+            <div class="pricing-price">8 занятий</div>
+          </div>
+          <ul class="pricing-list">
+            <li>Еженедельные корректировки</li>
+            <li>Мини-гайд по питанию</li>
+          </ul>
+          <div class="pricing-price">25 600 ₽</div>
+        </article>
+        <article class="pricing-card">
+          <div class="pricing-pill">Transform</div>
+          <div>
+            <div class="pricing-meta">Максимум сервиса</div>
+            <div class="pricing-price">12 занятий</div>
+          </div>
+          <ul class="pricing-list">
+            <li>Приоритетные слоты</li>
+            <li>Мини-гайд по питанию</li>
+            <li>Чат-поддержка</li>
+          </ul>
+          <div class="pricing-price">35 900 ₽</div>
+        </article>
+      </div>
     </section>
 
     <section class="section">
