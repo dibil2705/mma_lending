@@ -80,8 +80,9 @@
 
     .hero {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 32px;
+      align-items: center;
       padding: 28px;
       border-radius: 28px;
       background: linear-gradient(145deg, rgba(24, 26, 36, 0.9), rgba(19, 20, 27, 0.9));
@@ -89,15 +90,18 @@
       box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
     }
 
+    .hero-content {
+      display: grid;
+      gap: 18px;
+    }
+
     .hero h1 {
       font-size: clamp(28px, 4vw, 44px);
       line-height: 1.2;
-      margin-bottom: 12px;
     }
 
     .hero p {
       color: var(--muted);
-      margin-bottom: 20px;
     }
 
     .cta-group {
@@ -133,15 +137,61 @@
       background: transparent;
     }
 
+    .hero-visual {
+      display: grid;
+      gap: 18px;
+    }
+
+    .hero-image {
+      position: relative;
+      border-radius: 22px;
+      overflow: hidden;
+      min-height: 320px;
+      background: radial-gradient(circle at top, rgba(225, 54, 54, 0.25), transparent 55%), var(--card);
+      border: 1px solid var(--line);
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(1.1);
+    }
+
+    .hero-badge {
+      position: absolute;
+      right: 18px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(24, 26, 36, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(6px);
+      max-width: 220px;
+      box-shadow: 0 18px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .hero-badge strong {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .hero-badge span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .hero-badge-top {
+      top: 18px;
+    }
+
+    .hero-badge-bottom {
+      bottom: 18px;
+    }
+
     .hero-meta {
       display: grid;
       gap: 14px;
-    }
-
-    .meta-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 12px;
     }
 
     .meta-card {
@@ -381,6 +431,14 @@
         align-items: flex-start;
       }
 
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-image {
+        min-height: 260px;
+      }
+
       .pricing-table,
       .pricing-table thead {
         display: block;
@@ -413,7 +471,7 @@
     </header>
 
     <section class="hero">
-      <div>
+      <div class="hero-content">
         <h1>Максим Буторин — Pro MMA. Основатель Sochi Top Team. Сочи.</h1>
         <p>Тренировки по единоборствам для новичков и профи. Центр Сочи, Несебрская, 6. Здесь ценят результат, дисциплину, статус и конкретику в плане.</p>
         <div class="cta-group">
@@ -421,24 +479,27 @@
           <a class="btn btn-ghost" href="#formats">Выбрать формат (группа / персонально / дети / безлимит)</a>
         </div>
       </div>
-      <div class="hero-meta">
-        <div class="meta-grid">
-          <div class="meta-card">
+      <div class="hero-visual">
+        <div class="hero-image">
+          <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1200&q=80" alt="Атлет в тренировочном зале">
+          <div class="hero-badge hero-badge-top">
             <strong>25-8-1</strong>
             <span>Профессиональный рекорд (Tapology)</span>
           </div>
-          <div class="meta-card">
+          <div class="hero-badge hero-badge-bottom">
             <strong>10+ лет</strong>
             <span>Карьера в MMA и лигах</span>
           </div>
+        </div>
+        <div class="hero-meta">
           <div class="meta-card">
             <strong>4.9/5</strong>
             <span>Отзывы учеников и зала</span>
           </div>
-        </div>
-        <div class="card">
-          <h3>Кому продаём — четыре пути на первом экране</h3>
-          <p>Каждому нужен свой трек: безопасность для новичка, система для спортсмена, дисциплина для детей, статус и медиа-угол для партнёров.</p>
+          <div class="card">
+            <h3>Кому продаём — четыре пути на первом экране</h3>
+            <p>Каждому нужен свой трек: безопасность для новичка, система для спортсмена, дисциплина для детей, статус и медиа-угол для партнёров.</p>
+          </div>
         </div>
       </div>
     </section>
