@@ -3,21 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Максим Буторин — Pro MMA | Sochi Top Team</title>
+  <title>FitFlow — Stronger. Healthier. You.</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      color-scheme: dark;
-      --bg: #0b0b0f;
-      --bg-soft: #13141b;
-      --card: #181a24;
-      --card-2: #1f2230;
-      --line: #2c3042;
-      --text: #f7f7fb;
-      --muted: #b2b6c6;
-      --accent: #e13636;
-      --accent-2: #f5a524;
-      --success: #31c48d;
+      color-scheme: light;
+      --bg: #a9bde6;
+      --bg-soft: #bcd0f2;
+      --glass: rgba(255, 255, 255, 0.22);
+      --glass-strong: rgba(255, 255, 255, 0.32);
+      --glass-border: rgba(255, 255, 255, 0.5);
+      --text: #f7f9ff;
+      --text-dark: #1c2333;
+      --muted: rgba(255, 255, 255, 0.75);
+      --muted-dark: rgba(28, 35, 51, 0.65);
+      --accent: #ffffff;
+      --accent-dark: #2b3142;
     }
 
     * {
@@ -28,9 +29,12 @@
 
     body {
       font-family: 'Montserrat', sans-serif;
-      background: radial-gradient(circle at top, rgba(225, 54, 54, 0.12), transparent 45%), var(--bg);
+      background: radial-gradient(circle at 15% 20%, #f2d8e7 0%, transparent 38%),
+        radial-gradient(circle at 85% 15%, #d8e9f8 0%, transparent 40%),
+        linear-gradient(135deg, #8fa7da, #bed2f4 55%, #cdddf5 100%);
       color: var(--text);
       line-height: 1.6;
+      min-height: 100vh;
     }
 
     a {
@@ -46,169 +50,266 @@
     .wrap {
       max-width: 1120px;
       margin: 0 auto;
-      padding: 24px 20px 80px;
+      padding: 32px 20px 80px;
     }
 
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 28px;
-    }
-
-    .logo {
-      font-weight: 800;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      font-size: 14px;
-      color: var(--muted);
-    }
-
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 14px;
-      border-radius: 999px;
-      background: rgba(225, 54, 54, 0.16);
-      border: 1px solid rgba(225, 54, 54, 0.4);
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
+    .glass {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      box-shadow: 0 30px 60px rgba(26, 32, 50, 0.2);
     }
 
     .hero {
+      border-radius: 32px;
+      padding: 26px 30px 30px;
       display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-      gap: 32px;
-      align-items: center;
-      padding: 28px;
-      border-radius: 28px;
-      background: linear-gradient(145deg, rgba(24, 26, 36, 0.9), rgba(19, 20, 27, 0.9));
-      border: 1px solid var(--line);
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+      gap: 28px;
+      position: relative;
+      overflow: hidden;
     }
 
-    .hero-content {
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.45), transparent 45%),
+        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.35), transparent 40%);
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .hero > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    .hero-logo {
+      font-weight: 700;
+      color: var(--text);
+      font-size: 14px;
+      letter-spacing: 0.4px;
+    }
+
+    .hero-nav {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .hero-body {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 28px;
+      align-items: center;
+    }
+
+    .hero-copy {
       display: grid;
       gap: 18px;
     }
 
     .hero h1 {
-      font-size: clamp(28px, 4vw, 44px);
-      line-height: 1.2;
+      font-size: clamp(40px, 5vw, 64px);
+      line-height: 1.05;
+      font-weight: 700;
     }
 
     .hero p {
+      max-width: 420px;
       color: var(--muted);
+      font-size: 14px;
     }
 
-    .cta-group {
-      display: grid;
-      gap: 12px;
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
     }
 
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 14px 18px;
+      padding: 12px 18px;
       border-radius: 999px;
       font-weight: 600;
       border: 1px solid transparent;
       transition: all 0.2s ease;
+      font-size: 13px;
+      gap: 8px;
     }
 
     .btn-primary {
       background: var(--accent);
-      color: #fff;
-      box-shadow: 0 16px 30px rgba(225, 54, 54, 0.35);
+      color: var(--accent-dark);
+      box-shadow: 0 15px 30px rgba(28, 35, 51, 0.15);
     }
 
     .btn-primary:hover {
       transform: translateY(-1px);
-      box-shadow: 0 20px 40px rgba(225, 54, 54, 0.4);
     }
 
     .btn-ghost {
-      border-color: var(--line);
+      border-color: rgba(255, 255, 255, 0.6);
       color: var(--text);
-      background: transparent;
+      background: rgba(255, 255, 255, 0.12);
     }
 
-    .hero-visual {
-      display: grid;
-      gap: 18px;
+    .hero-rating {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: var(--text);
     }
 
-    .hero-image {
+    .hero-rating img {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      object-fit: cover;
+    }
+
+    .hero-rating span {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .hero-media {
       position: relative;
-      border-radius: 22px;
-      overflow: hidden;
-      min-height: 320px;
-      background: radial-gradient(circle at top, rgba(225, 54, 54, 0.25), transparent 55%), var(--card);
-      border: 1px solid var(--line);
+      display: grid;
+      gap: 16px;
+      align-items: center;
     }
 
-    .hero-image img {
+    .hero-photo {
+      border-radius: 26px;
+      overflow: hidden;
+      position: relative;
+      min-height: 360px;
+    }
+
+    .hero-photo img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: saturate(1.1);
     }
 
-    .hero-badge {
+    .hero-video {
       position: absolute;
-      right: 18px;
-      padding: 12px 14px;
-      border-radius: 16px;
-      background: rgba(24, 26, 36, 0.92);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(6px);
-      max-width: 220px;
-      box-shadow: 0 18px 30px rgba(0, 0, 0, 0.35);
-    }
-
-    .hero-badge strong {
-      display: block;
-      font-size: 16px;
-      margin-bottom: 4px;
-    }
-
-    .hero-badge span {
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .hero-badge-top {
-      top: 18px;
-    }
-
-    .hero-badge-bottom {
-      bottom: 18px;
-    }
-
-    .hero-meta {
+      right: -16px;
+      bottom: 40px;
+      width: 220px;
+      padding: 14px;
+      border-radius: 20px;
       display: grid;
-      gap: 14px;
+      gap: 10px;
     }
 
-    .meta-card {
-      padding: 16px;
-      border-radius: 18px;
-      background: var(--card);
-      border: 1px solid var(--line);
+    .hero-video small {
+      color: var(--muted);
+      font-size: 11px;
     }
 
-    .meta-card strong {
+    .hero-video-preview {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .hero-video-preview img {
+      width: 100%;
+      height: 110px;
+      object-fit: cover;
+    }
+
+    .hero-play {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .hero-play span {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.85);
+      display: grid;
+      place-items: center;
+      color: var(--accent-dark);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .hero-icons {
+      position: absolute;
+      right: 12px;
+      bottom: 12px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .hero-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
       font-size: 18px;
-      display: block;
-      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .panel-list,
+    .card,
+    .meta-card,
+    .fact-card,
+    .path-card,
+    .system-item,
+    .review,
+    .media-card,
+    .map-card,
+    .status-pill,
+    .table-cta,
+    .hero-rating,
+    .hero-video,
+    .hero-icon {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 20px 40px rgba(26, 32, 50, 0.16);
+    }
+
+    .status-pill {
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text);
     }
 
     .section {
       margin-top: 48px;
+      color: var(--text-dark);
     }
 
     .section-title {
@@ -217,7 +318,7 @@
     }
 
     .section-subtitle {
-      color: var(--muted);
+      color: var(--muted-dark);
       max-width: 760px;
       margin-bottom: 24px;
     }
@@ -231,18 +332,18 @@
     .card {
       padding: 20px;
       border-radius: 20px;
-      background: var(--card);
-      border: 1px solid var(--line);
+      color: var(--text-dark);
     }
 
     .card h3 {
       font-size: 18px;
       margin-bottom: 10px;
+      color: var(--text-dark);
     }
 
     .card ul {
       padding-left: 18px;
-      color: var(--muted);
+      color: var(--muted-dark);
     }
 
     .card .tag {
@@ -253,8 +354,8 @@
       font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      background: rgba(245, 165, 36, 0.18);
-      color: var(--accent-2);
+      background: rgba(255, 255, 255, 0.55);
+      color: var(--text-dark);
     }
 
     .fact-panel {
@@ -266,12 +367,11 @@
     .fact-card {
       padding: 18px;
       border-radius: 18px;
-      background: var(--card-2);
-      border: 1px solid var(--line);
+      color: var(--text-dark);
     }
 
     .fact-card span {
-      color: var(--muted);
+      color: var(--muted-dark);
       display: block;
       margin-top: 6px;
       font-size: 13px;
@@ -285,16 +385,16 @@
     .path-card {
       padding: 20px;
       border-radius: 20px;
-      background: linear-gradient(150deg, rgba(24, 26, 36, 0.9), rgba(31, 34, 48, 0.9));
-      border: 1px solid var(--line);
+      color: var(--text-dark);
     }
 
     .path-card h4 {
       margin-bottom: 8px;
+      color: var(--text-dark);
     }
 
     .path-card p {
-      color: var(--muted);
+      color: var(--muted-dark);
       margin-bottom: 12px;
     }
 
@@ -309,19 +409,20 @@
       font-size: 14px;
       margin-top: 16px;
       overflow: hidden;
+      color: var(--text-dark);
     }
 
     .pricing-table th,
     .pricing-table td {
       padding: 14px;
-      border-bottom: 1px solid var(--line);
+      border-bottom: 1px solid rgba(28, 35, 51, 0.12);
       vertical-align: top;
     }
 
     .pricing-table th {
       text-align: left;
       font-weight: 600;
-      color: var(--muted);
+      color: var(--muted-dark);
     }
 
     .pricing-table tr:last-child td {
@@ -330,15 +431,15 @@
 
     .price {
       font-weight: 700;
-      color: var(--accent-2);
+      color: #2f3a55;
     }
 
     .table-cta {
       display: inline-flex;
       padding: 8px 14px;
       border-radius: 999px;
-      border: 1px solid var(--line);
       font-size: 12px;
+      color: var(--text-dark);
     }
 
     .system-list {
@@ -349,8 +450,7 @@
     .system-item {
       padding: 16px;
       border-radius: 16px;
-      background: var(--card);
-      border: 1px solid var(--line);
+      color: var(--text-dark);
     }
 
     .reviews {
@@ -362,13 +462,13 @@
     .review {
       padding: 16px;
       border-radius: 16px;
-      background: var(--card);
-      border: 1px solid var(--line);
+      color: var(--text-dark);
     }
 
     .review strong {
       display: block;
       margin-bottom: 8px;
+      color: var(--text-dark);
     }
 
     .media-grid {
@@ -380,9 +480,8 @@
     .media-card {
       padding: 16px;
       border-radius: 16px;
-      background: var(--card-2);
-      border: 1px solid var(--line);
       text-align: center;
+      color: var(--text-dark);
     }
 
     .brand-block {
@@ -394,8 +493,7 @@
     .map-card {
       border-radius: 20px;
       padding: 20px;
-      background: var(--card);
-      border: 1px solid var(--line);
+      color: var(--text-dark);
     }
 
     .contacts {
@@ -406,37 +504,56 @@
     .contacts a {
       padding: 12px 16px;
       border-radius: 999px;
-      border: 1px solid var(--line);
+      border: 1px solid rgba(28, 35, 51, 0.2);
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      color: var(--text-dark);
+      background: rgba(255, 255, 255, 0.6);
     }
 
     .divider {
       height: 1px;
-      background: var(--line);
+      background: rgba(28, 35, 51, 0.12);
       margin: 32px 0;
     }
 
     footer {
       margin-top: 60px;
-      color: var(--muted);
+      color: var(--muted-dark);
       font-size: 12px;
       text-align: center;
     }
 
+    @media (max-width: 900px) {
+      .hero-body {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-video {
+        position: static;
+        width: 100%;
+      }
+
+      .hero-icons {
+        position: static;
+        display: flex;
+        justify-content: flex-end;
+      }
+    }
+
     @media (max-width: 768px) {
-      header {
+      .hero {
+        padding: 20px;
+      }
+
+      .hero-top {
         flex-direction: column;
         align-items: flex-start;
       }
 
-      .hero {
-        grid-template-columns: 1fr;
-      }
-
-      .hero-image {
-        min-height: 260px;
+      .hero h1 {
+        font-size: clamp(32px, 9vw, 48px);
       }
 
       .pricing-table,
@@ -465,46 +582,51 @@
 </head>
 <body>
   <div class="wrap">
-    <header>
-      <div class="logo">Sochi Top Team • MMA</div>
-      <div class="status-pill">Pro MMA · 25-8-1 · путь в UFC</div>
-    </header>
-
-    <section class="hero">
-      <div class="hero-content">
-        <h1>Максим Буторин — Pro MMA. Основатель Sochi Top Team. Сочи.</h1>
-        <p>Тренировки по единоборствам для новичков и профи. Центр Сочи, Несебрская, 6. Здесь ценят результат, дисциплину, статус и конкретику в плане.</p>
-        <div class="cta-group">
-          <a class="btn btn-primary" href="tel:+79000000000">Записаться на пробную (быстро)</a>
-          <a class="btn btn-ghost" href="#formats">Выбрать формат (группа / персонально / дети / безлимит)</a>
-        </div>
+    <section class="hero glass">
+      <div class="hero-top">
+        <div class="hero-logo">FitFlow</div>
+        <nav class="hero-nav">
+          <a href="#programs">Programs</a>
+          <a href="#how">How it works</a>
+          <a href="#video">Video blog</a>
+        </nav>
+        <div class="status-pill">About us</div>
       </div>
-      <div class="hero-visual">
-        <div class="hero-image">
-          <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1200&q=80" alt="Атлет в тренировочном зале">
-          <div class="hero-badge hero-badge-top">
-            <strong>25-8-1</strong>
-            <span>Профессиональный рекорд (Tapology)</span>
-          </div>
-          <div class="hero-badge hero-badge-bottom">
-            <strong>10+ лет</strong>
-            <span>Карьера в MMA и лигах</span>
+      <div class="hero-body">
+        <div class="hero-copy">
+          <h1>Stronger.<br>Healthier.<br>You.</h1>
+          <p>Transform your body and mindset with expert online coaching. Personalized training, real results, and full support — wherever you are.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#programs">Start your journey →</a>
+            <div class="hero-rating glass">
+              <img src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=200&q=80" alt="Coach avatar">
+              <div>
+                <strong>4.9/5</strong>
+                <span>FitFlow community</span>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="hero-meta">
-          <div class="meta-card">
-            <strong>4.9/5</strong>
-            <span>Отзывы учеников и зала</span>
+        <div class="hero-media">
+          <div class="hero-photo glass">
+            <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=80" alt="Athlete portrait">
           </div>
-          <div class="card">
-            <h3>Кому продаём — четыре пути на первом экране</h3>
-            <p>Каждому нужен свой трек: безопасность для новичка, система для спортсмена, дисциплина для детей, статус и медиа-угол для партнёров.</p>
+          <div class="hero-video glass" id="video">
+            <small>Stronger Every Day. 02:56</small>
+            <div class="hero-video-preview">
+              <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501b1?auto=format&fit=crop&w=600&q=80" alt="Training preview">
+              <div class="hero-play"><span>▶</span></div>
+            </div>
+          </div>
+          <div class="hero-icons">
+            <div class="hero-icon glass">↗</div>
+            <div class="hero-icon glass">⟳</div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="programs">
       <h2 class="section-title">Пути для каждой аудитории</h2>
       <p class="section-subtitle">Чтобы лендинг не был обо всём, сразу фиксируем сегменты: страх/неуверенность, цель/форма, дисциплина/безопасность и партнёрские запросы.</p>
       <div class="grid-4">
@@ -547,7 +669,7 @@
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="how">
       <h2 class="section-title">Доверие за 10 секунд</h2>
       <p class="section-subtitle">Факты, которые проверяются: запись и локация клуба, география выступлений, публичные источники.</p>
       <div class="fact-panel">
@@ -741,7 +863,7 @@
             <a href="https://wa.me/79000000000" target="_blank" rel="noopener">WhatsApp</a>
             <a href="https://t.me/sochitopteam" target="_blank" rel="noopener">Telegram</a>
           </div>
-          <p style="margin-top: 12px; color: var(--muted);">Ответим в течение дня и подберём слот.</p>
+          <p style="margin-top: 12px; color: var(--muted-dark);">Ответим в течение дня и подберём слот.</p>
         </div>
       </div>
     </section>
