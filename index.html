@@ -382,6 +382,115 @@
       gap: 16px;
     }
 
+    .formats-block {
+      background: rgba(8, 12, 22, 0.65);
+      border-radius: 28px;
+      padding: 28px;
+      border: 1px solid rgba(120, 140, 190, 0.25);
+      box-shadow: 0 30px 60px rgba(5, 8, 16, 0.55);
+    }
+
+    .formats-header {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    .formats-label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted-dark);
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .formats-label::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 42px;
+      height: 3px;
+      transform: translateX(-50%);
+      background: #e05b5b;
+      border-radius: 999px;
+    }
+
+    .formats-title {
+      font-size: clamp(20px, 3vw, 28px);
+      margin-top: 10px;
+      color: var(--text);
+    }
+
+    .formats-grid {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+
+    .format-card {
+      position: relative;
+      border-radius: 22px;
+      overflow: hidden;
+      min-height: 320px;
+      display: flex;
+      align-items: flex-end;
+      padding: 18px;
+      background: rgba(10, 15, 26, 0.65);
+      border: 1px solid rgba(120, 140, 190, 0.25);
+    }
+
+    .format-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(7, 9, 16, 0) 0%, rgba(7, 9, 16, 0.85) 70%, rgba(7, 9, 16, 0.95) 100%);
+      z-index: 1;
+    }
+
+    .format-card img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      filter: saturate(1.1) contrast(1.05);
+    }
+
+    .format-content {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .format-content h3 {
+      font-size: 18px;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+
+    .format-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      color: var(--text);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      background: rgba(8, 12, 20, 0.6);
+      width: fit-content;
+    }
+
     .path-card {
       padding: 20px;
       border-radius: 20px;
@@ -577,6 +686,28 @@
         font-size: 12px;
         text-transform: uppercase;
       }
+
+      .formats-block {
+        padding: 20px;
+        border-radius: 22px;
+      }
+
+      .formats-header {
+        text-align: left;
+      }
+
+      .formats-label {
+        justify-content: flex-start;
+      }
+
+      .formats-label::after {
+        left: 0;
+        transform: none;
+      }
+
+      .format-card {
+        min-height: 280px;
+      }
     }
   </style>
 </head>
@@ -689,48 +820,40 @@
     </section>
 
     <section class="section" id="formats">
-      <h2 class="section-title">Выбери свою траекторию</h2>
-      <p class="section-subtitle">Каждая карточка — результат, три ключевых шага и быстрый вход в запись.</p>
-      <div class="paths">
-        <div class="path-card">
-          <h4>Новичок</h4>
-          <p>Войти без травм, освоить технику, почувствовать уверенность.</p>
-          <ul>
-            <li>База ударной и борцовской техники</li>
-            <li>Плавный рост нагрузки</li>
-            <li>Контроль ошибок и фиксация прогресса</li>
-          </ul>
-          <a class="btn btn-primary" href="tel:+79000000000">Записаться</a>
+      <div class="formats-block">
+        <div class="formats-header">
+          <div class="formats-label">Наши программы</div>
+          <h2 class="formats-title">Выберите свой формат тренировок</h2>
         </div>
-        <div class="path-card">
-          <h4>Форма / функционал</h4>
-          <p>Сила, выносливость, режим — системный результат.</p>
-          <ul>
-            <li>Функциональные круги и интервалы</li>
-            <li>Контроль пульса и восстановления</li>
-            <li>Режим и дисциплина в расписании</li>
-          </ul>
-          <a class="btn btn-primary" href="tel:+79000000000">Записаться</a>
-        </div>
-        <div class="path-card">
-          <h4>Подготовка к бою</h4>
-          <p>Спарринги, тактика, весогонка и контроль формы.</p>
-          <ul>
-            <li>Сплит тренеров по стилям</li>
-            <li>Планирование раундов и тактики</li>
-            <li>Весогонка под медицинским контролем</li>
-          </ul>
-          <a class="btn btn-primary" href="tel:+79000000000">Записаться</a>
-        </div>
-        <div class="path-card">
-          <h4>Дети</h4>
-          <p>Координация, дисциплина, уважение к тренеру.</p>
-          <ul>
-            <li>Игровые методики и техника</li>
-            <li>Безопасные форматы и защита</li>
-            <li>Отчёт для родителей</li>
-          </ul>
-          <a class="btn btn-primary" href="tel:+79000000000">Записаться</a>
+        <div class="formats-grid">
+          <article class="format-card">
+            <img src="https://images.unsplash.com/photo-1549060279-7e168fcee0c2?auto=format&fit=crop&w=900&q=80" alt="Basic crossfit">
+            <div class="format-content">
+              <h3>Basic Crossfit</h3>
+              <a class="format-cta" href="tel:+79000000000">Подробнее</a>
+            </div>
+          </article>
+          <article class="format-card">
+            <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=900&q=80" alt="Fitness studio">
+            <div class="format-content">
+              <h3>Fitness Studio</h3>
+              <a class="format-cta" href="tel:+79000000000">Подробнее</a>
+            </div>
+          </article>
+          <article class="format-card">
+            <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=900&q=80" alt="Yoga classes">
+            <div class="format-content">
+              <h3>Yoga Classes</h3>
+              <a class="format-cta" href="tel:+79000000000">Подробнее</a>
+            </div>
+          </article>
+          <article class="format-card">
+            <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501b1?auto=format&fit=crop&w=900&q=80" alt="Personal training">
+            <div class="format-content">
+              <h3>Personal Training</h3>
+              <a class="format-cta" href="tel:+79000000000">Подробнее</a>
+            </div>
+          </article>
         </div>
       </div>
     </section>
