@@ -3,876 +3,718 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Нутрициолог</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,400;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
+  <title>Максим Буторин — Pro MMA | Sochi Top Team</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <style>
-    html, body {
-      transition: opacity 180ms ease;
+    :root {
+      color-scheme: dark;
+      --bg: #0b0b0f;
+      --bg-soft: #13141b;
+      --card: #181a24;
+      --card-2: #1f2230;
+      --line: #2c3042;
+      --text: #f7f7fb;
+      --muted: #b2b6c6;
+      --accent: #e13636;
+      --accent-2: #f5a524;
+      --success: #31c48d;
+    }
+
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      background: #efeff0;
+    }
+
+    body {
       font-family: 'Montserrat', sans-serif;
-      color: #425a1e;
-      min-height: 100vh;
-      position: relative;
-      z-index: 0;
-      isolation: isolate; /* важно для Яндекс.Браузера / стэкинга */
+      background: radial-gradient(circle at top, rgba(225, 54, 54, 0.12), transparent 45%), var(--bg);
+      color: var(--text);
+      line-height: 1.6;
     }
 
-    /* Keep background size stable (always viewport), even when content hides */
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background: #efeff0 url('./background.webp') center/contain no-repeat;
-      background-size: auto 100%;
-      z-index: -1; /* не -2, иначе в некоторых Chromium может пропасть */
-      pointer-events: none;
-
+    a {
+      color: inherit;
+      text-decoration: none;
     }
 
-    /* Soft side fade so a tall photo fits desktop screens with gentle white rails */
-    body::after {
-      content: "";
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      pointer-events: none;
-      background: linear-gradient(
-        90deg,
-        rgba(255,255,255,0.94) 0%,
-        rgba(255,255,255,0.82) 8%,
-        rgba(255,255,255,0.65) 14%,
-        rgba(255,255,255,0) 30%,
-        rgba(255,255,255,0) 70%,
-        rgba(255,255,255,0.65) 86%,
-        rgba(255,255,255,0.82) 92%,
-        rgba(255,255,255,0.94) 100%
-      );
-      mix-blend-mode: screen;
-    }
-
-    .wrap, .glass {
-      position: relative;
-      z-index: 1;
+    img {
+      max-width: 100%;
+      display: block;
     }
 
     .wrap {
-      max-width: 600px;
+      max-width: 1120px;
       margin: 0 auto;
-      padding: 20px;
+      padding: 24px 20px 80px;
     }
 
-    .glass {
-      background: rgba(255,255,255,0.32);
-      border: 1px solid rgba(255,255,255,0.55);
-      border-radius: 22px;
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      padding: 28px;
-      margin-bottom: 35px;
-      box-shadow: 0 10px 35px rgba(0,0,0,0.2);
-    }
-
-    h1, h2, h3 {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 500;
-      letter-spacing: 0.5px;
-      margin: 0 0 16px;
-      color: #3a4a2f;
-    }
-
-    /* About accordion */
-    details.accordion {
-      border: none;
-    }
-    details.accordion > summary {
-      list-style: none;
-      cursor: pointer;
-    }
-    details.accordion > summary::-webkit-details-marker { display: none; }
-
-    .accordion-summary {
+    header {
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
       gap: 16px;
-      margin: 0;
-      padding: 0;
+      margin-bottom: 28px;
     }
 
-    .accordion-title {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 500;
-      letter-spacing: 0.5px;
-      color: #3a4a2f;
-      font-size: 28px;
+    .logo {
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-size: 14px;
+      color: var(--muted);
     }
 
-    .accordion-chevron {
-      width: 38px;
-      height: 38px;
-      border-radius: 999px;
-      display: grid;
-      place-items: center;
-      background: rgba(255,255,255,0.22);
-      border: 1px solid rgba(255,255,255,0.35);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      transform: rotate(0deg);
-      transition: transform 220ms ease;
-      user-select: none;
-    }
-
-    details.accordion[open] .accordion-chevron {
-      transform: rotate(180deg);
-    }
-
-    .accordion-body {
-      margin-top: 14px;
-    }
-
-    .photos-row {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
       gap: 10px;
-      margin-top: 18px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(225, 54, 54, 0.16);
+      border: 1px solid rgba(225, 54, 54, 0.4);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
     }
-    .photos-row img {
-      width: 100%;
-      height: 150px;
-      object-fit: cover;
-      object-position: center 70%;
-      border-radius: 14px;
+
+    .hero {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      padding: 28px;
+      border-radius: 28px;
+      background: linear-gradient(145deg, rgba(24, 26, 36, 0.9), rgba(19, 20, 27, 0.9));
+      border: 1px solid var(--line);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+    }
+
+    .hero h1 {
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .cta-group {
+      display: grid;
+      gap: 12px;
     }
 
     .btn {
-      display: block;
-      width: 100%;
-      text-align: center;
-      padding: 14px;
-      margin-top: 18px;
-      border-radius: 30px;
-      background: rgba(255,255,255,0.45);
-      border: 1px solid rgba(255,255,255,0.7);
-      backdrop-filter: blur(10px);
-      cursor: pointer;
-      text-decoration: none;
-      color: #2e2e2e;
-      font-weight: 600;
-      font-family: 'Montserrat', sans-serif;
-    }
-
-    ul { padding-left: 18px; }
-
-    .menu-block .item {
-      width: 100%;
-      margin-bottom: 12px;
-      padding: 14px;
-      border-radius: 14px;
-      border: 1px solid rgba(90,90,90,0.25);
-      background: rgba(255,255,255,0.35);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 500;
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      cursor: pointer;
-      user-select: none;
-      text-align: left;
-      appearance: none;
-      -webkit-appearance: none;
-      outline: none;
-    }
-
-    .menu-block .item:focus-visible {
-      box-shadow: 0 0 0 2px rgba(255,255,255,0.7), 0 10px 35px rgba(0,0,0,0.2);
-    }
-
-    .menu-block .item .item-arrow {
-      font-size: 18px;
-      opacity: 0.75;
-      transform: translateX(0);
-      transition: transform 180ms ease, opacity 180ms ease;
-    }
-
-    .menu-block .item:hover .item-arrow {
-      transform: translateX(4px);
-      opacity: 1;
-    }
-
-    .contact-section {
-      background: rgba(150,170,90,0.8);
-      border-radius: 22px 22px 0 0;
-      padding: 30px;
-      color: white;
-      margin-top: 30px;
-      backdrop-filter: blur(12px);
-    }
-    .contact-section h2 {
-      color: white;
-      font-family: 'Montserrat', sans-serif;
-    }
-    .contact-btn {
-      display: block;
-      text-align: center;
-      padding: 14px;
-      margin-top: 14px;
-      border-radius: 30px;
-      border: 1px solid rgba(255,255,255,0.6);
-      color: white;
-      text-decoration: none;
+      justify-content: center;
+      padding: 14px 18px;
+      border-radius: 999px;
       font-weight: 600;
-      font-family: 'Montserrat', sans-serif;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
     }
 
-
-    .name {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 600;
-      font-size: 46px;
-      letter-spacing: 0.5px;
-      line-height: 1;
-      margin: 0 0 -15px;
-      color: #000000;
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 16px 30px rgba(225, 54, 54, 0.35);
     }
 
-
-      .glass.modal-panel {
-      max-width: 520px;
-      margin: 60px auto;
-      position: relative;
-      border-radius: 32px;
-      padding: 32px 26px 26px;
-      background: rgba(255,255,255,0.22);
-      border: none;
-      box-shadow: 0 18px 45px rgba(0,0,0,0.35);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      overflow: hidden;
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 20px 40px rgba(225, 54, 54, 0.4);
     }
 
-    .modal-panel h2 {
-      margin: 0 0 10px;
-      color: rgba(255,255,255,0.95);
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      letter-spacing: 0.2px;
-    }
-
-    .modal-panel h3 {
-      margin: 18px 0 10px;
-      color: rgba(255,255,255,0.92);
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      letter-spacing: 0.2px;
-      font-size: 13px;
-      text-transform: uppercase;
-    }
-
-    .modal-panel p,
-    .modal-panel li {
-      color: rgba(255,255,255,0.92);
-      font-family: 'Montserrat', sans-serif;
-      line-height: 1.55;
-      font-size: 13px;
-    }
-
-    .panel-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .modal-x {
-      width: 38px;
-      height: 38px;
-      border-radius: 999px;
-      display: grid;
-      place-items: center;
-      background: rgba(255,255,255,0.14);
-      border: 1px solid rgba(255,255,255,0.25);
-      color: rgba(255,255,255,0.95);
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .panel-scroll {
-      margin-top: 10px;
-      max-height: calc(100vh - 210px);
-      overflow: auto;
-      padding-right: 6px;
-
-      /* Firefox */
-      scrollbar-width: thin;
-      scrollbar-color: rgba(255,255,255,0.45) rgba(255,255,255,0.12);
-    }
-
-    /* Liquid Glass scrollbar (WebKit: Chrome/Safari/Edge) */
-    .panel-scroll::-webkit-scrollbar {
-      width: 10px;
-      height: 10px;
-    }
-
-    .panel-scroll::-webkit-scrollbar-track {
-      background: rgba(255,255,255,0.10);
-      border: 1px solid rgba(255,255,255,0.18);
-      border-radius: 999px;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-    }
-
-    .panel-scroll::-webkit-scrollbar-thumb {
-      background: linear-gradient(
-        180deg,
-        rgba(255,255,255,0.55),
-        rgba(255,255,255,0.22)
-      );
-      border: 1px solid rgba(255,255,255,0.32);
-      border-radius: 999px;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.18);
-    }
-
-    .panel-scroll::-webkit-scrollbar-thumb:hover {
-      background: linear-gradient(
-        180deg,
-        rgba(255,255,255,0.70),
-        rgba(255,255,255,0.28)
-      );
-    }
-
-    .panel-scroll::-webkit-scrollbar-corner {
+    .btn-ghost {
+      border-color: var(--line);
+      color: var(--text);
       background: transparent;
     }
 
-    .panel-scroll a.panel-link {
-      color: rgba(255,255,255,0.95);
-      text-decoration: underline;
-      text-underline-offset: 3px;
+    .hero-meta {
+      display: grid;
+      gap: 14px;
     }
 
-    #info-modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      padding: 20px;
-      background: rgba(0,0,0,0.25);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      z-index: 9999;
-      overflow-y: auto;
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
     }
 
-    .modal-lead {
-      width: 90%;
-      margin: 8px auto 16px;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 13px;
-      line-height: 1.45;
-      color: rgba(255,255,255,0.92);
+    .meta-card {
+      padding: 16px;
+      border-radius: 18px;
+      background: var(--card);
+      border: 1px solid var(--line);
     }
 
-    .modal-lead strong { color: #ffffff; }
-    .modal-lead em { font-style: italic; }
+    .meta-card strong {
+      font-size: 18px;
+      display: block;
+      margin-bottom: 6px;
+    }
 
-    .modal-form {
-      display: flex;
-      flex-direction: column;
+    .section {
+      margin-top: 48px;
+    }
+
+    .section-title {
+      font-size: clamp(22px, 3vw, 32px);
+      margin-bottom: 16px;
+    }
+
+    .section-subtitle {
+      color: var(--muted);
+      max-width: 760px;
+      margin-bottom: 24px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
       gap: 16px;
-      font-family: 'Montserrat', sans-serif;
     }
 
-    .modal-input-transparent,
-    .modal-input,
-    .modal-textarea {
-      width: 90%;
-      border: none;
-      outline: none;
-      padding: 14px 18px;
-      border-radius: 22px;
-      background: rgba(255,255,255,0.12);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      font-size: 14px;
-      margin: 0 auto;
-      color: #fff;
-    }
-
-    .modal-input::placeholder,
-    .modal-textarea::placeholder {
-      color: rgba(255,255,255,0.75);
-
-    }
-
-    .modal-textarea {
-      border-radius: 22px;
-      min-height: 90px;
-      resize: vertical;
-    }
-
-    .modal-consent {
-      font-size: 12px;
-      color: #f5f5f5;
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
-    }
-
-    .modal-consent input {
-      margin-top: 2px;
-    }
-
-    .btn.modal-submit {
-      margin-top: 12px;
-      background: #ffffff;
-      border: none;
-      color: #2e2e2e;
-      font-weight: 600;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-      width: 90%;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    #consultation-modal {
-      display: none;
-      position: fixed;
-      inset: 0;
+    .card {
       padding: 20px;
-      background: rgba(0,0,0,0.25);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      z-index: 9999;
-      overflow-y: auto;
+      border-radius: 20px;
+      background: var(--card);
+      border: 1px solid var(--line);
     }
 
-    /* When modal opens: hide all page blocks, keep only the background image */
-    body.modal-open { overflow: hidden; }
-    body.modal-open .wrap { display: none; }
+    .card h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
 
-    .form-status {
-      margin-top: 10px;
+    .card ul {
+      padding-left: 18px;
+      color: var(--muted);
+    }
+
+    .card .tag {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: rgba(245, 165, 36, 0.18);
+      color: var(--accent-2);
+    }
+
+    .fact-panel {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .fact-card {
+      padding: 18px;
+      border-radius: 18px;
+      background: var(--card-2);
+      border: 1px solid var(--line);
+    }
+
+    .fact-card span {
+      color: var(--muted);
+      display: block;
+      margin-top: 6px;
       font-size: 13px;
-      font-family: 'Montserrat', sans-serif;
+    }
+
+    .paths {
+      display: grid;
+      gap: 16px;
+    }
+
+    .path-card {
+      padding: 20px;
+      border-radius: 20px;
+      background: linear-gradient(150deg, rgba(24, 26, 36, 0.9), rgba(31, 34, 48, 0.9));
+      border: 1px solid var(--line);
+    }
+
+    .path-card h4 {
+      margin-bottom: 8px;
+    }
+
+    .path-card p {
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .path-card .btn {
+      margin-top: 12px;
+      width: 100%;
+    }
+
+    .pricing-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      margin-top: 16px;
+      overflow: hidden;
+    }
+
+    .pricing-table th,
+    .pricing-table td {
+      padding: 14px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    .pricing-table th {
+      text-align: left;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .pricing-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .price {
+      font-weight: 700;
+      color: var(--accent-2);
+    }
+
+    .table-cta {
+      display: inline-flex;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      font-size: 12px;
+    }
+
+    .system-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .system-item {
+      padding: 16px;
+      border-radius: 16px;
+      background: var(--card);
+      border: 1px solid var(--line);
+    }
+
+    .reviews {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .review {
+      padding: 16px;
+      border-radius: 16px;
+      background: var(--card);
+      border: 1px solid var(--line);
+    }
+
+    .review strong {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .media-grid {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+
+    .media-card {
+      padding: 16px;
+      border-radius: 16px;
+      background: var(--card-2);
+      border: 1px solid var(--line);
       text-align: center;
-      min-height: 18px;
-    }
-    .form-status--success {
-      color: #3F2541;
-    }
-    .form-status--error {
-      color: #c53030;
     }
 
-    .form-followup {
-      width: 90%;
-      margin: 10px auto 0;
-      font-size: 13px;
-      line-height: 1.45;
-      font-family: 'Montserrat', sans-serif;
-      color: #3F2541;
+    .brand-block {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+
+    .map-card {
+      border-radius: 20px;
+      padding: 20px;
+      background: var(--card);
+      border: 1px solid var(--line);
+    }
+
+    .contacts {
+      display: grid;
+      gap: 12px;
+    }
+
+    .contacts a {
+      padding: 12px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--line);
+      margin: 32px 0;
+    }
+
+    footer {
+      margin-top: 60px;
+      color: var(--muted);
+      font-size: 12px;
       text-align: center;
-      display: none;
     }
 
-    .form-followup strong { font-weight: 700; }
-    .form-followup em { font-style: italic; }
-  
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
 
-    @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-      .glass { background: rgba(255,255,255,0.78); }
-      .menu-block .item { background: rgba(255,255,255,0.78); }
-      .btn { background: rgba(255,255,255,0.88); }
-      .accordion-chevron { background: rgba(255,255,255,0.65); }
-      .modal-input, .modal-textarea { background: rgba(255,255,255,0.22); }
-      #consultation-modal, #info-modal {
-        backdrop-filter: none;
-        -webkit-backdrop-filter: none;
+      .pricing-table,
+      .pricing-table thead {
+        display: block;
+      }
+
+      .pricing-table tr {
+        display: grid;
+        gap: 10px;
+        padding: 16px 0;
+      }
+
+      .pricing-table td,
+      .pricing-table th {
+        border: none;
+        padding: 0;
+      }
+
+      .pricing-table th {
+        font-size: 12px;
+        text-transform: uppercase;
       }
     }
   </style>
 </head>
 <body>
-
-  
   <div class="wrap">
+    <header>
+      <div class="logo">Sochi Top Team • MMA</div>
+      <div class="status-pill">Pro MMA · 25-8-1 · путь в UFC</div>
+    </header>
 
-    <div class="glass">
-      <h1 class="name">Екатерина Хортиева</h1>
-      <p>Дипломированный нутрициолог</p>
-      <img src="./katya.webp" style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:50%; margin:16px auto 0; display:block;">
-      <a class="btn">Записаться на консультацию</a>
-    </div>
-
-    <details class="glass accordion">
-      <summary class="accordion-summary">
-        <span class="accordion-title">Обо мне</span>
-        <span class="accordion-chevron" aria-hidden="true">▾</span>
-      </summary>
-
-      <div class="accordion-body">
-        <p><em>Нутрициолог</em>, коуч по здоровью и долголетию, эксперт по пептидной биорегуляции, биохакер.</p>
-        <p>Основатель проектов <em>ReviveLife</em>, <em>ART &amp; SOUL</em>, <em>Revive Life Organic Market</em>, автор блога <em>«Биофрилансика»</em> и книги <em>«Банановый хлеб»</em>.</p>
-
-        <ul>
-          <li>Член Ассоциации нутрициологов и коучей по здоровью</li>
-          <li>Член Российского союза нутрициологов, диетологов и специалистов пищевой индустрии</li>
-        </ul>
-
-        <p>Уже больше 7 лет я делюсь своим <em>20-летним опытом</em> и инструментами в сфере модификации образа жизни и питания.</p>
-
-        <div class="photos-row">
-          <img src="https://i.pinimg.com/1200x/71/01/31/71013116d01e16bd26a290e9e66c4394.jpg" style="object-position:center 65%;">
-          <img src="https://i.pinimg.com/736x/40/ee/51/40ee51a04f9c56c113fd3021d27091e3.jpg">
+    <section class="hero">
+      <div>
+        <h1>Максим Буторин — Pro MMA. Основатель Sochi Top Team. Сочи.</h1>
+        <p>Тренировки по единоборствам для новичков и профи. Центр Сочи, Несебрская, 6. Здесь ценят результат, дисциплину, статус и конкретику в плане.</p>
+        <div class="cta-group">
+          <a class="btn btn-primary" href="tel:+79000000000">Записаться на пробную (быстро)</a>
+          <a class="btn btn-ghost" href="#formats">Выбрать формат (группа / персонально / дети / безлимит)</a>
         </div>
       </div>
-    </details>
-
-    <details class="glass accordion">
-      <summary class="accordion-summary">
-        <span class="accordion-title">Образование</span>
-        <span class="accordion-chevron" aria-hidden="true">▾</span>
-      </summary>
-
-      <div class="accordion-body">
-        <ul>
-          <li>Health Behavior Change: From Evidence to Action (<em>Yale University</em>)</li>
-          <li>Gut Check: Exploring Your Microbiome (<em>University of California</em>)</li>
-          <li>Early Nutrition Academy — Micronutrients in Pregnancy and Lactation (<em>Ludwig-Maximilians-Universität München</em>)</li>
-          <li>Nutrition and Lifestyle during Pregnancy (Ludwig-Maximilians-Universität München)</li>
-          <li>Коучинг нового мышления (<em>University Global Coaching</em>, <em>ICF</em>)</li>
-          <li>Коронный иммунитет (академия UNIPROF)</li>
-          <li>Биохимия энергии (МИИН)</li>
-          <li>Биохимия микробиома (МИИН)</li>
-          <li>Биохимия детоксикации (МИИН)</li>
-          <li>Биохимия мозга (МИИН)</li>
-          <li>Анти-эйдж менеджмент (диплом и сертификация, Академия специалистов индустрии здоровья МГМУ им. И.М. Сеченова)</li>
-          <li>Интегративный нутрициолог (диплом и сертификация, Международный институт интегративной нутрициологии)</li>
-          <li>Нутриенты для долголетия (<em>European University of Longevity</em>)</li>
-          <li>Постоянный участник российских и международных конференций по нутрициологии и интегративной медицине</li>
-        </ul>
-
-        <h3>Научные направления в моём фокусе внимания</h3>
-        <ul>
-          <li>Нейронутрициология (влияние питания на работу мозга) и ментальное здоровье</li>
-          <li>Превенция старения и активное долголетие</li>
-          <li>Здоровье кишечника (ось «кишечник—мозг»)</li>
-        </ul>
-
-        <div class="photos-row">
-          <img src="https://i.pinimg.com/736x/a9/59/76/a95976c8ed3b81fcbe6f47e77670544d.jpg">
-          <img src="https://i.pinimg.com/736x/9e/91/0f/9e910ff673705f8b0cce9c7267e2d7db.jpg">
+      <div class="hero-meta">
+        <div class="meta-grid">
+          <div class="meta-card">
+            <strong>25-8-1</strong>
+            <span>Профессиональный рекорд (Tapology)</span>
+          </div>
+          <div class="meta-card">
+            <strong>10+ лет</strong>
+            <span>Карьера в MMA и лигах</span>
+          </div>
+          <div class="meta-card">
+            <strong>4.9/5</strong>
+            <span>Отзывы учеников и зала</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Кому продаём — четыре пути на первом экране</h3>
+          <p>Каждому нужен свой трек: безопасность для новичка, система для спортсмена, дисциплина для детей, статус и медиа-угол для партнёров.</p>
         </div>
       </div>
-    </details>
+    </section>
 
-    <div class="glass menu-block">
-      <button class="item" type="button" data-panel="approach">
-        <span>МОЙ ПОДХОД</span>
-        <span class="item-arrow">→</span>
-      </button>
-      <button class="item" type="button" data-panel="formats">
-        <span>ФОРМАТЫ РАБОТЫ</span>
-        <span class="item-arrow">→</span>
-      </button>
-      <button class="item" type="button" data-panel="partners">
-        <span>ПАРТНЕРЫ</span>
-        <span class="item-arrow">→</span>
-      </button>
-    </div>
+    <section class="section">
+      <h2 class="section-title">Пути для каждой аудитории</h2>
+      <p class="section-subtitle">Чтобы лендинг не был обо всём, сразу фиксируем сегменты: страх/неуверенность, цель/форма, дисциплина/безопасность и партнёрские запросы.</p>
+      <div class="grid-4">
+        <div class="card">
+          <span class="tag">Новички</span>
+          <h3>Безопасный вход</h3>
+          <ul>
+            <li>Объясняем и ставим технику по шагам</li>
+            <li>Контроль прогресса каждую неделю</li>
+            <li>Убираем страх травм и хаоса</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="tag">Спортсмены</span>
+          <h3>Система и нагрузка</h3>
+          <ul>
+            <li>План по цели: форма, вес, мощность</li>
+            <li>Спарринги и контроль интенсивности</li>
+            <li>Тесты выносливости и силы</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="tag">Дети и родители</span>
+          <h3>Характер и контроль</h3>
+          <ul>
+            <li>Дисциплина, уважение, структура</li>
+            <li>Безопасные нагрузки по возрасту</li>
+            <li>Отчётность тренера родителям</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="tag">Партнёры/медиа</span>
+          <h3>Статус клуба</h3>
+          <ul>
+            <li>Pro MMA рекорд и путь в UFC</li>
+            <li>Клуб в центре Сочи</li>
+            <li>Готовые медиа-форматы</li>
+          </ul>
+        </div>
+      </div>
+    </section>
 
-    <div class="contact-section">
-      <h2>Контакты</h2>
-      <a class="contact-btn" href="tel:+79033021600">Телефон</a>
-      <a class="contact-btn" href="https://t.me/katyarevivelife" target="_blank">Телеграм</a>
-      <a class="contact-btn" href="https://t.me/Ekaterina_Khortieva_revivelife" target="_blank">Телеграм канал</a>
-    </div>
+    <section class="section">
+      <h2 class="section-title">Доверие за 10 секунд</h2>
+      <p class="section-subtitle">Факты, которые проверяются: запись и локация клуба, география выступлений, публичные источники.</p>
+      <div class="fact-panel">
+        <div class="fact-card">
+          <strong>Pro record 25-8-1</strong>
+          <span>Источник: Tapology (профиль по запросу)</span>
+        </div>
+        <div class="fact-card">
+          <strong>Последние площадки</strong>
+          <span>Сочи · Казань · Москва — актуальный список отправим по запросу</span>
+        </div>
+        <div class="fact-card">
+          <strong>Клуб в центре</strong>
+          <span>Несебрская, 6 — рядом с морпортом, пешком от набережной</span>
+        </div>
+      </div>
+    </section>
 
+    <section class="section" id="formats">
+      <h2 class="section-title">Выбери свою траекторию</h2>
+      <p class="section-subtitle">Каждая карточка — результат, три ключевых шага и быстрый вход в запись.</p>
+      <div class="paths">
+        <div class="path-card">
+          <h4>Новичок</h4>
+          <p>Войти без травм, освоить технику, почувствовать уверенность.</p>
+          <ul>
+            <li>База ударной и борцовской техники</li>
+            <li>Плавный рост нагрузки</li>
+            <li>Контроль ошибок и фиксация прогресса</li>
+          </ul>
+          <a class="btn btn-primary" href="tel:+79000000000">Записаться</a>
+        </div>
+        <div class="path-card">
+          <h4>Форма / функционал</h4>
+          <p>Сила, выносливость, режим — системный результат.</p>
+          <ul>
+            <li>Функциональные круги и интервалы</li>
+            <li>Контроль пульса и восстановления</li>
+            <li>Режим и дисциплина в расписании</li>
+          </ul>
+          <a class="btn btn-primary" href="tel:+79000000000">Записаться</a>
+        </div>
+        <div class="path-card">
+          <h4>Подготовка к бою</h4>
+          <p>Спарринги, тактика, весогонка и контроль формы.</p>
+          <ul>
+            <li>Сплит тренеров по стилям</li>
+            <li>Планирование раундов и тактики</li>
+            <li>Весогонка под медицинским контролем</li>
+          </ul>
+          <a class="btn btn-primary" href="tel:+79000000000">Записаться</a>
+        </div>
+        <div class="path-card">
+          <h4>Дети</h4>
+          <p>Координация, дисциплина, уважение к тренеру.</p>
+          <ul>
+            <li>Игровые методики и техника</li>
+            <li>Безопасные форматы и защита</li>
+            <li>Отчёт для родителей</li>
+          </ul>
+          <a class="btn btn-primary" href="tel:+79000000000">Записаться</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Услуги и цены</h2>
+      <p class="section-subtitle">Прозрачно, как в зале. Все форматы обновляемы и связаны с реальным результатом.</p>
+      <table class="pricing-table">
+        <thead>
+          <tr>
+            <th>Формат</th>
+            <th>Цена</th>
+            <th>Что входит</th>
+            <th>Действие</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Группа</strong> (12 занятий)</td>
+            <td class="price">9 000 ₽</td>
+            <td>Техника, функционал, контроль прогресса</td>
+            <td><a class="table-cta" href="tel:+79000000000">Оплатить / бронь</a></td>
+          </tr>
+          <tr>
+            <td><strong>Безлимит</strong></td>
+            <td class="price">15 000 ₽</td>
+            <td>Все группы, гибкое расписание, приоритетные слоты</td>
+            <td><a class="table-cta" href="tel:+79000000000">Оплатить / бронь</a></td>
+          </tr>
+          <tr>
+            <td><strong>Разовое</strong></td>
+            <td class="price">1 200 ₽</td>
+            <td>Оценка уровня, разбор техники, план на 1 неделю</td>
+            <td><a class="table-cta" href="tel:+79000000000">Оплатить / бронь</a></td>
+          </tr>
+          <tr>
+            <td><strong>Персональная</strong></td>
+            <td class="price">5 000 ₽</td>
+            <td>Индивидуальный план, корректировка каждой сессии</td>
+            <td><a class="table-cta" href="tel:+79000000000">Оплатить / бронь</a></td>
+          </tr>
+          <tr>
+            <td><strong>Детские группы</strong></td>
+            <td class="price">9 000 ₽</td>
+            <td>Безопасность, дисциплина, отчётность</td>
+            <td><a class="table-cta" href="tel:+79000000000">Оплатить / бронь</a></td>
+          </tr>
+          <tr>
+            <td><strong>«Тренировка мечты»</strong> (3 тренера)</td>
+            <td class="price">9 999 ₽</td>
+            <td>Техника, функционал, разбор ошибок на видео</td>
+            <td><a class="table-cta" href="tel:+79000000000">Оплатить / бронь</a></td>
+          </tr>
+          <tr>
+            <td><strong>«Лучший друг»</strong> (премиум-сервис)</td>
+            <td class="price">100 000 ₽</td>
+            <td>Личный куратор, полное сопровождение, закрытые сборы</td>
+            <td><a class="table-cta" href="tel:+79000000000">Оплатить / бронь</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Почему у нас получится у тебя</h2>
+      <p class="section-subtitle">Это не мотивация. Это бойцовская система: техника → нагрузка → контроль прогресса.</p>
+      <div class="system-list">
+        <div class="system-item">Методика: сначала техника, затем рост нагрузки, затем фиксация прогресса по метрикам.</div>
+        <div class="system-item">Безопасный вход: адаптация для новичков, контроль техники, снижение риска травм.</div>
+        <div class="system-item">Дисциплина и режим: чёткий график, посещаемость, персональная ответственность.</div>
+        <div class="system-item">Атмосфера: зал «под все уровни», одинаково жёстко к дисциплине и уважению.</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Социальное доказательство</h2>
+      <p class="section-subtitle">6 сильных отзывов, коротко и по делу.</p>
+      <div class="reviews">
+        <div class="review"><strong>Новичок</strong>Объясняют без давления, через месяц вижу технику и прогресс.</div>
+        <div class="review"><strong>Новичок</strong>Пришёл с страхом — сейчас уверен, понимаю зачем каждый спарринг.</div>
+        <div class="review"><strong>Опытный</strong>Нагрузка грамотная, спарринги плотные, тренеры держат уровень.</div>
+        <div class="review"><strong>Опытный</strong>Системная подготовка: вес, режим, контроль.</div>
+        <div class="review"><strong>Атмосфера</strong>Чисто, центр города, всё по расписанию, дисциплина.</div>
+        <div class="review"><strong>Атмосфера</strong>Клуб с уважением и сильным костяком учеников.</div>
+      </div>
+      <div class="divider"></div>
+      <div class="media-grid">
+        <div class="media-card">В бою — хайлайты 30 сек</div>
+        <div class="media-card">В лагере — 3 дня подготовки</div>
+        <div class="media-card">В зале — короткие рилс-отчёты</div>
+        <div class="media-card">Медиа-упоминания и интервью</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Максим как бренд — для партнёров</h2>
+      <p class="section-subtitle">Сибирь → Сочи → путь в UFC. Статус и медиа-угол вынесены отдельно.</p>
+      <div class="brand-block">
+        <div class="card">
+          <h3>Короткая био</h3>
+          <p>Профессиональный боец MMA, основатель Sochi Top Team, путь в UFC. Рекорд 25-8-1 (Tapology).</p>
+          <p><strong>Запросы:</strong> спонсорство, медиа, совместные сборы.</p>
+          <a class="btn btn-ghost" href="mailto:media@sochitopteam.ru">Запрос на сотрудничество</a>
+        </div>
+        <div class="card">
+          <h3>Факты для медиакита</h3>
+          <ul>
+            <li>Публичная статистика в Tapology</li>
+            <li>Клуб в центре Сочи</li>
+            <li>Форматы для брендов: лагеря, коллаборации</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Как попасть</h2>
+      <p class="section-subtitle">Адрес, карта, парковка и быстрый маршрут.</p>
+      <div class="brand-block">
+        <div class="map-card">
+          <h3>Адрес клуба</h3>
+          <p>Сочи, ул. Несебрская, 6 — рядом с морпортом и набережной.</p>
+          <p>Парковка: городская рядом со зданием, вход со стороны двора.</p>
+          <a class="btn btn-primary" href="https://yandex.ru/maps/?text=Несебрская%206%20Сочи" target="_blank" rel="noopener">Построить маршрут</a>
+        </div>
+        <div class="map-card">
+          <h3>Контакты</h3>
+          <div class="contacts">
+            <a href="tel:+79000000000">Позвонить</a>
+            <a href="https://wa.me/79000000000" target="_blank" rel="noopener">WhatsApp</a>
+            <a href="https://t.me/sochitopteam" target="_blank" rel="noopener">Telegram</a>
+          </div>
+          <p style="margin-top: 12px; color: var(--muted);">Ответим в течение дня и подберём слот.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Возможности неограничены — если это ускоряет запись</h2>
+      <p class="section-subtitle">Технологии, которые усиливают конверсию и дисциплину, без лишних эффектов.</p>
+      <div class="grid-4">
+        <div class="card">
+          <h3>Квиз 40 секунд</h3>
+          <p>Подбор программы и автоматическая сегментация заявки.</p>
+          <a class="btn btn-ghost" href="#">Запустить квиз</a>
+        </div>
+        <div class="card">
+          <h3>Таймлайн карьеры</h3>
+          <p>Интерактивная лента боёв (Tapology) и сборов.</p>
+          <a class="btn btn-ghost" href="#">Смотреть таймлайн</a>
+        </div>
+        <div class="card">
+          <h3>Календарь слотов</h3>
+          <p>Свободные места в группах и на персоналки.</p>
+          <a class="btn btn-ghost" href="#">Забронировать</a>
+        </div>
+        <div class="card">
+          <h3>Трекер прогресса</h3>
+          <p>Вес, выносливость, техника — после записи.</p>
+          <a class="btn btn-ghost" href="#">Открыть пример</a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      Контент для усиления: 10–15 фото, 30–45 сек видео-интро, список форматов Максима, кейсы «до/после». Без этого лендинг не продаёт.
+    </footer>
   </div>
-  
-<div id="consultation-modal" class="modal">
-  <div class="glass modal-panel">
-    <div class="panel-head">
-      <h2>Запись на консультацию</h2>
-      <div id="modal-close" class="modal-x">×</div>
-    </div>
-
-    <div class="panel-scroll">
-      <p class="modal-lead"><strong>Заполните анкету</strong>, чтобы воспользоваться <strong>20-минутной бесплатной диагностикой</strong>, чтобы мы могли вместе понять ваш <em>уникальный путь к здоровью</em>.</p>
-      <form id="consultation-form" class="modal-form">
-        <input name="name" class="modal-input" placeholder="Как вас зовут?" required>
-        <input name="phone" class="modal-input" placeholder="Введите ваш номер телефона" required>
-        <input name="email" class="modal-input" placeholder="Введите ваш e-mail" required>
-        <textarea name="request" class="modal-textarea" placeholder="Что вас беспокоит? Какой ваш запрос на консультацию?" rows="4" required></textarea>
-
-        <label class="modal-consent"><input type="checkbox" required> Согласие с политикой конфиденциальности</label>
-        <label class="modal-consent"><input type="checkbox" required> Даю согласие на получение информационных и маркетинговых рассылок</label>
-
-        <button type="submit" class="btn modal-submit">Отправить</button>
-        <div id="form-status" class="form-status"></div>
-        <div id="form-followup" class="form-followup">После заполнения анкеты, <strong>Екатерина</strong> свяжется с вами через <em>телеграм</em> или другой мессенджер.</div>
-      </form>
-    </div>
-  </div>
-</div>
-
-<div id="info-modal" class="modal">
-  <div class="glass modal-panel">
-    <div class="panel-head">
-      <h2 id="info-title">Панель</h2>
-      <div id="info-close" class="modal-x">×</div>
-    </div>
-    <div id="info-body" class="panel-scroll"></div>
-  </div>
-</div>
-
-<template id="tpl-approach">
-
-  <h3>Здоровье — это благополучие на всех уровнях</h3>
-  <p>Я глубоко убеждена, что истинное здоровье — это баланс и гармония между телом, умом и эмоциями. Мы работаем не только с физиологическими аспектами (пищеварение, энергия, сон), но и с психологическими и эмоциональными факторами, которые напрямую влияют на ваше пищевое поведение, уровень стресса и общее самочувствие. Вместе мы создаем среду, в которой организм может естественным образом стремиться к состоянию благополучия (well-being).</p>
-
-  <h3>2. Персонализация</h3>
-  <p>Нет двух одинаковых людей. Ваша уникальная генетика, биохимия, история здоровья, образ жизни и цели — это отправная точка нашей работы. Универсальные диеты и шаблонные решения не эффективны. С помощью углубленного анализа ваших привычек, пищевого дневника и, при необходимости, интерпретации актуальных лабораторных исследований, мы создаем персонализированный план восстановления здоровья через питание и образ жизни, который работает именно для вас.</p>
-
-  <h3>3. Питание как инструмент регуляции, а не контроля</h3>
-  <p>Я придерживаюсь принципов функционального питания. Это значит, что мы используем пищу как важный инструмент коммуникации с вашим телом. Цель — не жесткий контроль, а «обучение» организма:</p>
-  <ul>
-    <li>Активируем естественные механизмы детоксикации и восстановления через правильные нутриенты.</li>
-    <li>Восстанавливаем баланс (гомеостаз) в пищеварительной, гормональной и иммунной системах.</li>
-    <li>Укрепляем ресурсы организма, чтобы он самостоятельно поддерживал здоровье и эффективно справлялся с вызовами.</li>
-  </ul>
-
-  <h3>Как это работает на практике?</h3>
-  <p>Вы не просто получаете рекомендации, я помогаю вам понять «почему» и «как», становясь вашим поддерживающим наставником. Мы вместе формируем осознанные, устойчивые привычки в питании и образе жизни, которые интегрируются в вашу реальность, приносят радость и становятся фундаментом для долгосрочного здоровья.</p>
-
-  <p>Также, я еженедельно провожу wellness-завтраки, которые заменяют консультации за 10-15 тыс. рублей, интересно? Следите за анонсами в телеграм-канале (указать ссылку).</p>
-
-  <h3>С какими треками-запросами преимущественно работаю:</h3>
-  <ul>
-    <li>Отсутствие энергии, усталость</li>
-    <li>Проблемы с ЖКТ (кишечник)</li>
-    <li>Проблемы с кожей</li>
-    <li>Лишний вес</li>
-    <li>Инсулинорезистентность</li>
-    <li>Плохой сон</li>
-    <li>Биохакинг и превенция старения</li>
-  </ul>
-
-  <h3>С какими запросами НЕ работаю:</h3>
-  <ul>
-    <li>Тяжелые диагнозы</li>
-    <li>Если изначально нужна просто «волшебная таблетка» и быстрый результат (хотите все вопросы решить одной консультацией)</li>
-  </ul>
-</template>
-
-<template id="tpl-formats">
-  <p><strong>Форматы работы</strong> — для разных задач и этапов. Можно начать с <em>тактического решения</em>, а затем при желании перейти в глубокую трансформацию.</p>
-
-  <h3>Консультация</h3>
-  <p>Это <strong>тактический ход</strong> для тех, кто в самом начале, запутался или стоит на распутье. Вы приходите с беспокоящим вопросом, и за <strong>60 минут</strong> мы находим на него ответ и формируем понятный план действий — <em>«матрицу здоровья»</em>.</p>
-  <p>➡️ <strong>Стоимость:</strong> 5 500 руб. <em>(с 1 января 2026 — 7 000 руб.)</em></p>
-
-  <h3>Сопровождение</h3>
-  <p>Это <strong>основной</strong> и самый глубокий формат для тех, кто готов к настоящим изменениям. Здесь мы не просто говорим — мы <em>внедряем</em>: новые привычки, работаем с мышлением, дисциплиной и персонализированной стратегией питания.</p>
-
-  <h3>Что входит в программу сопровождения</h3>
-  <ul>
-    <li><strong>8 недель</strong> персонального сопровождения <em>(+ до 2 дополнительных недель</em> на получение результатов анализов и других данных — при необходимости)</li>
-    <li><strong>2 подробные консультации</strong> (онлайн/оффлайн)</li>
-    <li><strong>1 раз в неделю</strong> — разбор вопросов и трекинг внедрения рекомендаций в личном чате</li>
-    <li><strong>Разбор результатов анализов:</strong> рекомендации и практические советы по вашим анализам; на что обратить внимание в будущем с учётом образа жизни и семейной истории</li>
-    <li><strong>Индивидуальный план</strong> по нутрицевтикам и образу жизни (сон, физическая нагрузка) по результатам анализов и всей собранной информации от вас</li>
-    <li><strong>Рекомендации по питанию</strong> и выбору продуктов по результатам анализов и всей собранной информации от вас</li>
-    <li>Рекомендации по обращению к профильным специалистам-врачам <em>в случае необходимости</em></li>
-  </ul>
-
-  <p>➡️ <strong>Стоимость:</strong> 40 000 руб.</p>
-
-  <p><strong>Результат</strong> — внедрённая персонализированная стратегия по модификации образа жизни и питания, навык формировать здоровый рацион самостоятельно и придерживаться привычек, которые приводят вас к здоровью. Да, это дороже — но <em>так работает лучше</em>.</p>
-
-  <p>Чтобы начать, запишитесь на <strong>20-минутный звонок-знакомство</strong> — <a class="panel-link" href="#" data-open="consultation">открыть форму</a>.</p>
-
-  <p><em>Важно:</em> так как у меня много интересных проектов офлайн и для меня прежде всего важно качество взаимодействия, ежемесячно беру только <strong>2 человек</strong> на личное сопровождение и провожу только <strong>5 консультаций</strong>. <strong>Успевайте!</strong></p>
-</template>
-
-<template id="tpl-partners">
-  <p><strong>Партнеры</strong> — сервисы и продукты, которыми я пользуюсь и которые могу рекомендовать с выгодой для вас.</p>
-
-  <h3>Peptides — пептиды Хавинсона</h3>
-  <p>Регистрация по ссылке: <a class="panel-link" href="https://lk.peptides1.ru/auth/sign-up?referrer=379389" target="_blank" rel="noopener">lk.peptides1.ru</a></p>
-
-  <h3>My Genetics</h3>
-  <p><strong>Скидка 5%</strong> на генетические тесты по коду <strong>Khortieva</strong>.</p>
-
-  <h3>Hello, Doc!</h3>
-  <p><strong>15 000</strong> приветственных бонусов за регистрацию и скидка до <strong>25%</strong> в ведущих российских лабораториях <em>(Инвитро, Гемотест, Хеликс, СитиЛаб)</em> и аптечных сетях.</p>
-  <p>Ссылка: <a class="panel-link" href="https://prod.hellodoc.app/social_invite/c226a18a-35c8-452b-9b83-fe6b5e41b17b/" target="_blank" rel="noopener">prod.hellodoc.app</a></p>
-
-  <h3>Евразийская Академия Йоги</h3>
-  <p>Скидка на обучение по коду <strong>Khortieva</strong> <em>(в процессе согласования)</em>.</p>
-
-  <h3>Студия «Лотос» (г. Сочи)</h3>
-  <p>Скидка на абонемент (7 сеансов экзотерапии) по коду <strong>Khortieva</strong> <em>(в процессе согласования)</em>.</p>
-</template>
-
-<script>
-  const consultationModal = document.getElementById('consultation-modal');
-  const openConsultBtn = document.querySelector('.btn:not(.modal-submit)');
-  const closeConsultBtn = document.getElementById('modal-close');
-
-  const infoModal = document.getElementById('info-modal');
-  const infoTitle = document.getElementById('info-title');
-  const infoBody = document.getElementById('info-body');
-  const infoClose = document.getElementById('info-close');
-
-  const form = document.getElementById('consultation-form');
-  const statusEl = document.getElementById('form-status');
-  const followupEl = document.getElementById('form-followup');
-
-  const titleMap = {
-    approach: 'Мой подход (холистический, интегративный)',
-    formats: 'Форматы работы',
-    partners: 'Партнеры'
-  };
-
-  const isOpen = (el) => el && el.style.display === 'block';
-  const refreshBody = () => {
-    if (isOpen(consultationModal) || isOpen(infoModal)) document.body.classList.add('modal-open');
-    else document.body.classList.remove('modal-open');
-  };
-
-  function closeOverlay(el) {
-    if (!el) return;
-    el.style.display = 'none';
-    refreshBody();
-  }
-
-  function openOverlay(el) {
-    if (!el) return;
-    if (consultationModal) consultationModal.style.display = 'none';
-    if (infoModal) infoModal.style.display = 'none';
-    el.style.display = 'block';
-    refreshBody();
-  }
-
-  // Open consultation
-  if (openConsultBtn) {
-    openConsultBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      openOverlay(consultationModal);
-    });
-  }
-
-  // Close buttons
-  if (closeConsultBtn) closeConsultBtn.addEventListener('click', () => closeOverlay(consultationModal));
-  if (infoClose) infoClose.addEventListener('click', () => closeOverlay(infoModal));
-
-  // Close by clicking outside
-  window.addEventListener('click', (e) => {
-    if (e.target === consultationModal) closeOverlay(consultationModal);
-    if (e.target === infoModal) closeOverlay(infoModal);
-  });
-
-  // Menu panels
-  document.querySelectorAll('.menu-block .item').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const key = btn.getAttribute('data-panel');
-      const tpl = document.getElementById('tpl-' + key);
-      if (infoTitle) infoTitle.textContent = titleMap[key] || 'Панель';
-      if (infoBody) infoBody.innerHTML = tpl ? tpl.innerHTML : '<p><strong>Скоро.</strong> Добавим контент.</p>';
-      openOverlay(infoModal);
-    });
-  });
-
-  // Open consultation from inside info-modal
-  if (infoBody) {
-    infoBody.addEventListener('click', (e) => {
-      const a = e.target.closest('a[data-open="consultation"]');
-      if (!a) return;
-      e.preventDefault();
-      openOverlay(consultationModal);
-    });
-  }
-
-  // Form submit (Telegram)
-  if (form) {
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      if (statusEl) {
-        statusEl.textContent = '';
-        statusEl.className = 'form-status';
-      }
-      if (followupEl) followupEl.style.display = 'none';
-
-      const data = new FormData(form);
-      const name = (data.get('name') || '').toString().trim();
-      const phone = (data.get('phone') || '').toString().trim();
-      const email = (data.get('email') || '').toString().trim();
-      const request = (data.get('request') || '').toString().trim();
-
-      // simple validations (no random symbols)
-      const phoneRegex = /^[0-9 ()+-]{7,20}$/;
-      const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,}$/;
-
-      if (!phoneRegex.test(phone)) {
-        if (statusEl) {
-          statusEl.textContent = 'Введите корректный номер телефона';
-          statusEl.classList.add('form-status--error');
-        }
-        return;
-      }
-
-      if (!emailRegex.test(email)) {
-        if (statusEl) {
-          statusEl.textContent = 'Введите корректный e-mail';
-          statusEl.classList.add('form-status--error');
-        }
-        return;
-      }
-
-      const text = `📝 Заявка на консультацию
-
-👤 Имя: ${name}
-📞 Телефон: ${phone}
-📧 Email: ${email}
-
-❗ Запрос: ${request}`;
-
-      const TOKEN = "8406377449:AAFjqdJJ1t1GLHm9WHH1WRLOf709gyr0kJg";
-      const CHAT_ID = "-1003221591055";
-      const URL = 'https://api.telegram.org/bot' + TOKEN + '/sendMessage';
-
-      try {
-        const response = await fetch(URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chat_id: CHAT_ID, text })
-        });
-
-        const result = await response.json().catch(() => null);
-        if (!response.ok || (result && result.ok === false)) throw new Error('Send failed');
-
-        if (statusEl) {
-          statusEl.textContent = 'Заявка успешно отправлена';
-          statusEl.classList.add('form-status--success');
-        }
-        if (followupEl) followupEl.style.display = 'block';
-        form.reset();
-      } catch (error) {
-        if (statusEl) {
-          statusEl.textContent = 'Ошибка отправки. Попробуйте ещё раз позже.';
-          statusEl.classList.add('form-status--error');
-        }
-        if (followupEl) followupEl.style.display = 'none';
-      }
-    });
-  }
-</script>
-
 </body>
 </html>
