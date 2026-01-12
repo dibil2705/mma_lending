@@ -426,10 +426,14 @@
       color: var(--text);
     }
 
-    .formats-grid {
+    .formats-carousel {
+      position: relative;
+    }
+
+    .formats-track {
       display: grid;
       gap: 18px;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
 
     .format-card {
@@ -489,6 +493,31 @@
       letter-spacing: 0.6px;
       background: rgba(8, 12, 20, 0.6);
       width: fit-content;
+    }
+
+    .formats-nav {
+      display: none;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 16px;
+    }
+
+    .formats-nav-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      border: 1px solid rgba(138, 180, 255, 0.4);
+      background: rgba(10, 18, 34, 0.6);
+      color: var(--text);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .formats-nav-btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(138, 180, 255, 0.7);
     }
 
     .path-card {
@@ -709,6 +738,29 @@
         min-height: 280px;
       }
     }
+
+    @media (max-width: 960px) {
+      .formats-track {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 4px;
+      }
+
+      .formats-track::-webkit-scrollbar {
+        display: none;
+      }
+
+      .format-card {
+        flex: 0 0 78%;
+        min-width: 240px;
+        scroll-snap-align: start;
+      }
+
+      .formats-nav {
+        display: flex;
+      }
+    }
   </style>
 </head>
 <body>
@@ -825,7 +877,8 @@
           <div class="formats-label">Наши программы</div>
           <h2 class="formats-title">Выберите свой формат тренировок</h2>
         </div>
-        <div class="formats-grid">
+        <div class="formats-carousel">
+          <div class="formats-track" data-carousel-track>
           <article class="format-card">
             <img src="https://images.unsplash.com/photo-1549060279-7e168fcee0c2?auto=format&fit=crop&w=900&q=80" alt="Basic crossfit">
             <div class="format-content">
@@ -854,6 +907,11 @@
               <a class="format-cta" href="tel:+79000000000">Подробнее</a>
             </div>
           </article>
+          </div>
+          <div class="formats-nav">
+            <button class="formats-nav-btn" type="button" data-carousel-prev aria-label="Предыдущий формат">←</button>
+            <button class="formats-nav-btn" type="button" data-carousel-next aria-label="Следующий формат">→</button>
+          </div>
         </div>
       </div>
     </section>
@@ -1022,5 +1080,21 @@
       Контент для усиления: 10–15 фото, 30–45 сек видео-интро, список форматов Максима, кейсы «до/после». Без этого лендинг не продаёт.
     </footer>
   </div>
+  <script>
+    const formatsTrack = document.querySelector('[data-carousel-track]');
+    const prevButton = document.querySelector('[data-carousel-prev]');
+    const nextButton = document.querySelector('[data-carousel-next]');
+
+    const scrollFormats = (direction) => {
+      if (!formatsTrack) return;
+      const card = formatsTrack.querySelector('.format-card');
+      const gap = parseFloat(getComputedStyle(formatsTrack).gap || 0);
+      const offset = (card?.offsetWidth || 0) + gap;
+      formatsTrack.scrollBy({ left: offset * direction, behavior: 'smooth' });
+    };
+
+    prevButton?.addEventListener('click', () => scrollFormats(-1));
+    nextButton?.addEventListener('click', () => scrollFormats(1));
+  </script>
 </body>
 </html>
