@@ -211,54 +211,6 @@
       object-fit: cover;
     }
 
-    .hero-video {
-      position: absolute;
-      right: -16px;
-      bottom: 40px;
-      width: 220px;
-      padding: 14px;
-      border-radius: 20px;
-      display: grid;
-      gap: 10px;
-    }
-
-    .hero-video small {
-      color: var(--muted);
-      font-size: 11px;
-    }
-
-    .hero-video-preview {
-      position: relative;
-      border-radius: 16px;
-      overflow: hidden;
-    }
-
-    .hero-video-preview img {
-      width: 100%;
-      height: 110px;
-      object-fit: cover;
-    }
-
-    .hero-play {
-      position: absolute;
-      inset: 0;
-      display: grid;
-      place-items: center;
-      background: rgba(4, 8, 18, 0.45);
-    }
-
-    .hero-play span {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      background: rgba(232, 239, 255, 0.9);
-      display: grid;
-      place-items: center;
-      color: var(--accent-dark);
-      font-size: 12px;
-      font-weight: 700;
-    }
-
     .hero-icons {
       position: absolute;
       right: 12px;
@@ -289,8 +241,11 @@
     .status-pill,
     .table-cta,
     .hero-rating,
-    .hero-video,
-    .hero-icon {
+    .hero-icon,
+    .formats-block,
+    .formats-nav-btn,
+    .format-cta,
+    .contacts a {
       background: var(--glass);
       border: 1px solid var(--glass-border);
       backdrop-filter: blur(20px);
@@ -383,11 +338,8 @@
     }
 
     .formats-block {
-      background: rgba(8, 12, 22, 0.65);
       border-radius: 28px;
       padding: 28px;
-      border: 1px solid rgba(120, 140, 190, 0.25);
-      box-shadow: 0 30px 60px rgba(5, 8, 16, 0.55);
     }
 
     .formats-header {
@@ -491,7 +443,6 @@
       font-size: 12px;
       text-transform: uppercase;
       letter-spacing: 0.6px;
-      background: rgba(8, 12, 20, 0.6);
       width: fit-content;
     }
 
@@ -507,7 +458,6 @@
       height: 42px;
       border-radius: 999px;
       border: 1px solid rgba(138, 180, 255, 0.4);
-      background: rgba(10, 18, 34, 0.6);
       color: var(--text);
       display: grid;
       place-items: center;
@@ -647,7 +597,6 @@
       align-items: center;
       justify-content: center;
       color: var(--text);
-      background: rgba(10, 18, 34, 0.55);
     }
 
     .divider {
@@ -666,11 +615,6 @@
     @media (max-width: 900px) {
       .hero-body {
         grid-template-columns: 1fr;
-      }
-
-      .hero-video {
-        position: static;
-        width: 100%;
       }
 
       .hero-icons {
@@ -793,13 +737,6 @@
         <div class="hero-media">
           <div class="hero-photo glass">
             <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=80" alt="Athlete portrait">
-          </div>
-          <div class="hero-video glass" id="video">
-            <small>Stronger Every Day. 02:56</small>
-            <div class="hero-video-preview">
-              <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501b1?auto=format&fit=crop&w=600&q=80" alt="Training preview">
-              <div class="hero-play"><span>▶</span></div>
-            </div>
           </div>
           <div class="hero-icons">
             <div class="hero-icon glass">↗</div>
