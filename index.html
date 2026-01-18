@@ -805,36 +805,65 @@
 <body>
   <div class="wrap">
     <section class="hero glass">
-      <div class="hero-top">
-        <div class="hero-logo">FitFlow</div>
-        <nav class="hero-nav">
-          <a href="#programs">Programs</a>
-          <a href="#how">How it works</a>
-          <a href="#video">Video blog</a>
-        </nav>
-        <div class="status-pill">About us</div>
-      </div>
       <div class="hero-body">
-        <div class="hero-copy">
-          <h1>Stronger.<br>Healthier.<br>You.</h1>
-          <p>Transform your body and mindset with expert online coaching. Personalized training, real results, and full support — wherever you are.</p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#programs">Start your journey →</a>
-            <div class="hero-rating glass">
-              <img src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=200&q=80" alt="Coach avatar">
-              <div>
-                <strong>4.9/5</strong>
-                <span>FitFlow community</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="hero-media">
+        <div class="hero-media" style="grid-column: 1 / -1;">
           <div class="hero-photo glass">
             <img src="photo_2026-01-09_22-40-26.jpg" alt="Athlete portrait">
           </div>
         </div>
       </div>
+      <div class="hero-text-overlay" style="position: absolute; inset: 0; display: grid; place-items: center; text-align: center; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; pointer-events: none; padding: 24px;">
+        <div data-hero-beat="intro" style="display: grid; gap: 12px; opacity: 1; transition: opacity 0.2s linear;">
+          <h1 style="margin: 0; font-size: clamp(40px, 5vw, 64px); line-height: 1.05; font-weight: 700; color: rgba(255, 255, 255, 0.9);">MAXIM BUTORIN</h1>
+          <p style="margin: 0; font-size: 14px; letter-spacing: 0.02em; color: rgba(255, 255, 255, 0.6);">Professional MMA Fighter · 30+ Fights</p>
+        </div>
+        <div data-hero-beat="contrast" style="position: absolute; inset: 0; display: grid; place-items: center; opacity: 0; transition: opacity 0.2s linear;">
+          <h1 style="margin: 0; font-size: clamp(40px, 5vw, 64px); line-height: 1.05; font-weight: 700; color: rgba(255, 255, 255, 0.9);">THEY SEE A FIGHTER</h1>
+        </div>
+        <div data-hero-beat="reveal" style="position: absolute; inset: 0; display: grid; place-items: center; opacity: 0; transition: opacity 0.2s linear;">
+          <h1 style="margin: 0; font-size: clamp(40px, 5vw, 64px); line-height: 1.05; font-weight: 700; color: rgba(255, 255, 255, 0.9);">WE SEE A WEAPON</h1>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const hero = document.querySelector('.hero');
+          if (!hero) return;
+          const beats = {
+            intro: hero.querySelector('[data-hero-beat="intro"]'),
+            contrast: hero.querySelector('[data-hero-beat="contrast"]'),
+            reveal: hero.querySelector('[data-hero-beat="reveal"]')
+          };
+
+          const clamp = (value, min = 0, max = 1) => Math.min(Math.max(value, min), max);
+
+          const fadeRange = (progress, start, end, fade = 0.04) => {
+            if (progress < start || progress > end) return 0;
+            const fadeInEnd = start + fade;
+            const fadeOutStart = end - fade;
+            if (progress <= fadeInEnd) {
+              return clamp((progress - start) / fade);
+            }
+            if (progress >= fadeOutStart) {
+              return clamp((end - progress) / fade);
+            }
+            return 1;
+          };
+
+          const updateBeats = () => {
+            const rect = hero.getBoundingClientRect();
+            const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+            const scrollProgress = clamp((viewportHeight - rect.top) / (rect.height + viewportHeight));
+
+            if (beats.intro) beats.intro.style.opacity = fadeRange(scrollProgress, 0, 0.2);
+            if (beats.contrast) beats.contrast.style.opacity = fadeRange(scrollProgress, 0.3, 0.5);
+            if (beats.reveal) beats.reveal.style.opacity = fadeRange(scrollProgress, 0.55, 0.75);
+          };
+
+          updateBeats();
+          window.addEventListener('scroll', updateBeats, { passive: true });
+          window.addEventListener('resize', updateBeats);
+        })();
+      </script>
     </section>
 
     <section class="section" id="programs">
