@@ -807,11 +807,8 @@
     <section data-hero="sequence" style="position: relative; width: 100vw; height: 100vh; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); overflow: hidden; background: #090b11;">
       <div data-hero="canvas-wrap" style="position: relative; width: 100%; height: 100%;">
         <canvas data-hero="canvas" style="display: block; width: 100%; height: 100%;"></canvas>
-        <div data-hero="loader" style="position: absolute; inset: 0; display: grid; place-items: center; font-size: 12px; letter-spacing: 0.36em; text-transform: uppercase; color: rgba(255, 255, 255, 0.55); background: rgba(8, 10, 16, 0.4);">
-          Loading...
-        </div>
         <div style="position: absolute; inset: 0; display: grid; place-items: center; text-align: center; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; pointer-events: none;">
-          <h1 data-hero-text="one" style="position: absolute; inset: 0; display: grid; place-items: center; margin: 0; padding: 0 16px; font-size: clamp(32px, 6vw, 64px); line-height: 1.05; font-weight: 700; color: rgba(255, 255, 255, 0.9); opacity: 0; transition: opacity 0.2s linear;">MAXIM BUTORIN</h1>
+          <h1 data-hero-text="one" style="position: absolute; inset: 0; display: grid; place-items: center; margin: 0; padding: 0 16px; font-size: clamp(32px, 6vw, 64px); line-height: 1.05; font-weight: 700; color: rgba(255, 255, 255, 0.9); opacity: 1; transition: opacity 0.2s linear;">MAXIM BUTORIN</h1>
           <h1 data-hero-text="two" style="position: absolute; inset: 0; display: grid; place-items: center; margin: 0; padding: 0 16px; font-size: clamp(32px, 6vw, 64px); line-height: 1.05; font-weight: 700; color: rgba(255, 255, 255, 0.9); opacity: 0; transition: opacity 0.2s linear;">THEY SEE A FIGHTER</h1>
           <h1 data-hero-text="three" style="position: absolute; inset: 0; display: grid; place-items: center; margin: 0; padding: 0 16px; font-size: clamp(32px, 6vw, 64px); line-height: 1.05; font-weight: 700; color: rgba(255, 255, 255, 0.9); opacity: 0; transition: opacity 0.2s linear;">WE SEE A WEAPON</h1>
         </div>
@@ -822,7 +819,6 @@
           if (!hero) return;
 
           const canvas = hero.querySelector('[data-hero="canvas"]');
-          const loader = hero.querySelector('[data-hero="loader"]');
           const textOne = hero.querySelector('[data-hero-text="one"]');
           const textTwo = hero.querySelector('[data-hero-text="two"]');
           const textThree = hero.querySelector('[data-hero-text="three"]');
@@ -846,12 +842,6 @@
           const frameSrc = (index) => {
             const frameNumber = String(index).padStart(3, '0');
             return `animation_hero/ezgif-frame-${frameNumber}.webp`;
-          };
-
-          const setLoaderVisible = (visible) => {
-            if (!loader) return;
-            loader.style.opacity = visible ? '1' : '0';
-            loader.style.pointerEvents = visible ? 'auto' : 'none';
           };
 
           const drawFrame = (index) => {
@@ -915,7 +905,7 @@
           };
 
           const updateTextOpacity = (value) => {
-            if (textOne) textOne.style.opacity = fadeRange(value, 0.05, 0.28);
+            if (textOne) textOne.style.opacity = fadeRange(value, -0.05, 0.28);
             if (textTwo) textTwo.style.opacity = fadeRange(value, 0.35, 0.58);
             if (textThree) textThree.style.opacity = fadeRange(value, 0.64, 0.88);
           };
@@ -1003,9 +993,6 @@
               if (i === 1) {
                 drawFrame(1);
                 updateTextOpacity(0);
-              }
-              if (loadedFrames === totalFrames) {
-                setLoaderVisible(false);
               }
             };
             images[i - 1] = image;
