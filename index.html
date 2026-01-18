@@ -804,39 +804,91 @@
 </head>
 <body>
   <div class="wrap">
-    <section class="hero glass">
-      <div class="hero-body">
-        <div class="hero-media" style="grid-column: 1 / -1;">
-          <div class="hero-photo glass">
-            <img src="photo_2026-01-09_22-40-26.jpg" alt="Athlete portrait">
+    <section class="hero glass" style="padding: 0;">
+      <div data-hero-sequence="container" style="position: relative; height: 400vh; width: 100%;">
+        <div style="position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden;">
+          <canvas data-hero-sequence="canvas" style="display: block; width: 100%; height: 100%;"></canvas>
+          <div data-hero-sequence="loader" style="position: absolute; inset: 0; display: grid; place-items: center; font-size: 12px; letter-spacing: 0.36em; text-transform: uppercase; color: rgba(255, 255, 255, 0.55); background: rgba(8, 10, 16, 0.4);">
+            Loading...
           </div>
-        </div>
-      </div>
-      <div class="hero-text-overlay" style="position: absolute; inset: 0; display: grid; place-items: center; text-align: center; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; pointer-events: none; padding: 24px;">
-        <div data-hero-beat="intro" style="display: grid; gap: 12px; opacity: 1; transition: opacity 0.2s linear;">
-          <h1 style="margin: 0; font-size: clamp(40px, 5vw, 64px); line-height: 1.05; font-weight: 700; color: rgba(255, 255, 255, 0.9);">MAXIM BUTORIN</h1>
-          <p style="margin: 0; font-size: 14px; letter-spacing: 0.02em; color: rgba(255, 255, 255, 0.6);">Professional MMA Fighter · 30+ Fights</p>
-        </div>
-        <div data-hero-beat="contrast" style="position: absolute; inset: 0; display: grid; place-items: center; opacity: 0; transition: opacity 0.2s linear;">
-          <h1 style="margin: 0; font-size: clamp(40px, 5vw, 64px); line-height: 1.05; font-weight: 700; color: rgba(255, 255, 255, 0.9);">THEY SEE A FIGHTER</h1>
-        </div>
-        <div data-hero-beat="reveal" style="position: absolute; inset: 0; display: grid; place-items: center; opacity: 0; transition: opacity 0.2s linear;">
-          <h1 style="margin: 0; font-size: clamp(40px, 5vw, 64px); line-height: 1.05; font-weight: 700; color: rgba(255, 255, 255, 0.9);">WE SEE A WEAPON</h1>
+          <div style="position: absolute; inset: 0; display: grid; place-items: center; text-align: center; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; pointer-events: none;">
+            <h1 data-hero-text="one" style="position: absolute; inset: 0; display: grid; place-items: center; margin: 0; font-size: clamp(40px, 5vw, 64px); line-height: 1.05; font-weight: 700; color: rgba(255, 255, 255, 0.92); opacity: 0; transition: opacity 0.2s linear;">MAXIM BUTORIN</h1>
+            <h1 data-hero-text="two" style="position: absolute; inset: 0; display: grid; place-items: center; margin: 0; font-size: clamp(40px, 5vw, 64px); line-height: 1.05; font-weight: 700; color: rgba(255, 255, 255, 0.92); opacity: 0; transition: opacity 0.2s linear;">THEY SEE A FIGHTER</h1>
+            <h1 data-hero-text="three" style="position: absolute; inset: 0; display: grid; place-items: center; margin: 0; font-size: clamp(40px, 5vw, 64px); line-height: 1.05; font-weight: 700; color: rgba(255, 255, 255, 0.92); opacity: 0; transition: opacity 0.2s linear;">WE SEE A WEAPON</h1>
+          </div>
         </div>
       </div>
       <script>
         (() => {
           const hero = document.querySelector('.hero');
           if (!hero) return;
-          const beats = {
-            intro: hero.querySelector('[data-hero-beat="intro"]'),
-            contrast: hero.querySelector('[data-hero-beat="contrast"]'),
-            reveal: hero.querySelector('[data-hero-beat="reveal"]')
-          };
+
+          const container = hero.querySelector('[data-hero-sequence="container"]');
+          const canvas = hero.querySelector('[data-hero-sequence="canvas"]');
+          const loader = hero.querySelector('[data-hero-sequence="loader"]');
+          const textOne = hero.querySelector('[data-hero-text="one"]');
+          const textTwo = hero.querySelector('[data-hero-text="two"]');
+          const textThree = hero.querySelector('[data-hero-text="three"]');
+          const ctx = canvas ? canvas.getContext('2d') : null;
+          if (!container || !canvas || !ctx) return;
+
+          const totalFrames = 240;
+          const images = new Array(totalFrames);
+          let loadedFrames = 0;
+          let currentFrame = 1;
 
           const clamp = (value, min = 0, max = 1) => Math.min(Math.max(value, min), max);
 
-          const fadeRange = (progress, start, end, fade = 0.04) => {
+          const frameSrc = (index) => {
+            const frameNumber = String(index).padStart(3, '0');
+            return `animation_hero/ezgif-frame-${frameNumber}.webp`;
+          };
+
+          const setLoaderVisible = (visible) => {
+            if (!loader) return;
+            loader.style.opacity = visible ? '1' : '0';
+            loader.style.pointerEvents = visible ? 'auto' : 'none';
+          };
+
+          const drawFrame = (index) => {
+            const image = images[index - 1];
+            if (!image || !image.complete) return;
+            const ratio = window.devicePixelRatio || 1;
+            const width = canvas.width / ratio;
+            const height = canvas.height / ratio;
+            ctx.clearRect(0, 0, width, height);
+
+            const imageRatio = image.naturalWidth / image.naturalHeight;
+            const canvasRatio = width / height;
+            let drawWidth = width;
+            let drawHeight = height;
+
+            if (imageRatio > canvasRatio) {
+              drawWidth = width;
+              drawHeight = width / imageRatio;
+            } else {
+              drawHeight = height;
+              drawWidth = height * imageRatio;
+            }
+
+            const x = (width - drawWidth) / 2;
+            const y = (height - drawHeight) / 2;
+            ctx.drawImage(image, x, y, drawWidth, drawHeight);
+          };
+
+          const resizeCanvas = () => {
+            const ratio = window.devicePixelRatio || 1;
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            canvas.width = width * ratio;
+            canvas.height = height * ratio;
+            canvas.style.width = `${width}px`;
+            canvas.style.height = `${height}px`;
+            ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+            drawFrame(currentFrame);
+          };
+
+          const fadeRange = (progress, start, end, fade = 0.06) => {
             if (progress < start || progress > end) return 0;
             const fadeInEnd = start + fade;
             const fadeOutStart = end - fade;
@@ -849,19 +901,56 @@
             return 1;
           };
 
-          const updateBeats = () => {
-            const rect = hero.getBoundingClientRect();
-            const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-            const scrollProgress = clamp((viewportHeight - rect.top) / (rect.height + viewportHeight));
-
-            if (beats.intro) beats.intro.style.opacity = fadeRange(scrollProgress, 0, 0.2);
-            if (beats.contrast) beats.contrast.style.opacity = fadeRange(scrollProgress, 0.3, 0.5);
-            if (beats.reveal) beats.reveal.style.opacity = fadeRange(scrollProgress, 0.55, 0.75);
+          const updateTextOpacity = (progress) => {
+            if (textOne) textOne.style.opacity = fadeRange(progress, 0.05, 0.28);
+            if (textTwo) textTwo.style.opacity = fadeRange(progress, 0.35, 0.58);
+            if (textThree) textThree.style.opacity = fadeRange(progress, 0.64, 0.88);
           };
 
-          updateBeats();
-          window.addEventListener('scroll', updateBeats, { passive: true });
-          window.addEventListener('resize', updateBeats);
+          const updateFrame = () => {
+            const totalScroll = container.offsetHeight - window.innerHeight;
+            const rect = container.getBoundingClientRect();
+            const progress = totalScroll > 0 ? clamp(-rect.top / totalScroll) : 0;
+            const frameIndex = Math.round(progress * (totalFrames - 1)) + 1;
+            if (frameIndex !== currentFrame) {
+              currentFrame = frameIndex;
+              drawFrame(currentFrame);
+            }
+            updateTextOpacity(progress);
+          };
+
+          let ticking = false;
+          const onScroll = () => {
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(() => {
+              ticking = false;
+              updateFrame();
+            });
+          };
+
+          for (let i = 1; i <= totalFrames; i += 1) {
+            const image = new Image();
+            image.src = frameSrc(i);
+            image.onload = () => {
+              loadedFrames += 1;
+              if (i === 1) {
+                drawFrame(1);
+              }
+              if (loadedFrames === totalFrames) {
+                setLoaderVisible(false);
+              }
+            };
+            images[i - 1] = image;
+          }
+
+          resizeCanvas();
+          updateFrame();
+          window.addEventListener('resize', () => {
+            resizeCanvas();
+            updateFrame();
+          });
+          window.addEventListener('scroll', onScroll, { passive: true });
         })();
       </script>
     </section>
