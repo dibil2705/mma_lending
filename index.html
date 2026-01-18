@@ -804,38 +804,42 @@
 </head>
 <body>
   <div class="wrap">
-    <section class="hero glass" style="padding: 0;">
-      <div data-hero-sequence="container" style="position: relative; height: 400vh; width: 100%;">
-        <div style="position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden;">
-          <canvas data-hero-sequence="canvas" style="display: block; width: 100%; height: 100%;"></canvas>
-          <div data-hero-sequence="loader" style="position: absolute; inset: 0; display: grid; place-items: center; font-size: 12px; letter-spacing: 0.36em; text-transform: uppercase; color: rgba(255, 255, 255, 0.55); background: rgba(8, 10, 16, 0.4);">
-            Loading...
-          </div>
-          <div style="position: absolute; inset: 0; display: grid; place-items: center; text-align: center; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; pointer-events: none;">
-            <h1 data-hero-text="one" style="position: absolute; inset: 0; display: grid; place-items: center; margin: 0; font-size: clamp(40px, 5vw, 64px); line-height: 1.05; font-weight: 700; color: rgba(255, 255, 255, 0.92); opacity: 0; transition: opacity 0.2s linear;">MAXIM BUTORIN</h1>
-            <h1 data-hero-text="two" style="position: absolute; inset: 0; display: grid; place-items: center; margin: 0; font-size: clamp(40px, 5vw, 64px); line-height: 1.05; font-weight: 700; color: rgba(255, 255, 255, 0.92); opacity: 0; transition: opacity 0.2s linear;">THEY SEE A FIGHTER</h1>
-            <h1 data-hero-text="three" style="position: absolute; inset: 0; display: grid; place-items: center; margin: 0; font-size: clamp(40px, 5vw, 64px); line-height: 1.05; font-weight: 700; color: rgba(255, 255, 255, 0.92); opacity: 0; transition: opacity 0.2s linear;">WE SEE A WEAPON</h1>
-          </div>
+    <section data-hero="sequence" style="position: relative; width: 100vw; height: 100vh; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); overflow: hidden; background: #090b11;">
+      <div data-hero="canvas-wrap" style="position: relative; width: 100%; height: 100%;">
+        <canvas data-hero="canvas" style="display: block; width: 100%; height: 100%;"></canvas>
+        <div data-hero="loader" style="position: absolute; inset: 0; display: grid; place-items: center; font-size: 12px; letter-spacing: 0.36em; text-transform: uppercase; color: rgba(255, 255, 255, 0.55); background: rgba(8, 10, 16, 0.4);">
+          Loading...
+        </div>
+        <div style="position: absolute; inset: 0; display: grid; place-items: center; text-align: center; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; pointer-events: none;">
+          <h1 data-hero-text="one" style="position: absolute; inset: 0; display: grid; place-items: center; margin: 0; padding: 0 16px; font-size: clamp(32px, 6vw, 64px); line-height: 1.05; font-weight: 700; color: rgba(255, 255, 255, 0.9); opacity: 0; transition: opacity 0.2s linear;">MAXIM BUTORIN</h1>
+          <h1 data-hero-text="two" style="position: absolute; inset: 0; display: grid; place-items: center; margin: 0; padding: 0 16px; font-size: clamp(32px, 6vw, 64px); line-height: 1.05; font-weight: 700; color: rgba(255, 255, 255, 0.9); opacity: 0; transition: opacity 0.2s linear;">THEY SEE A FIGHTER</h1>
+          <h1 data-hero-text="three" style="position: absolute; inset: 0; display: grid; place-items: center; margin: 0; padding: 0 16px; font-size: clamp(32px, 6vw, 64px); line-height: 1.05; font-weight: 700; color: rgba(255, 255, 255, 0.9); opacity: 0; transition: opacity 0.2s linear;">WE SEE A WEAPON</h1>
         </div>
       </div>
       <script>
         (() => {
-          const hero = document.querySelector('.hero');
+          const hero = document.querySelector('[data-hero="sequence"]');
           if (!hero) return;
 
-          const container = hero.querySelector('[data-hero-sequence="container"]');
-          const canvas = hero.querySelector('[data-hero-sequence="canvas"]');
-          const loader = hero.querySelector('[data-hero-sequence="loader"]');
+          const canvas = hero.querySelector('[data-hero="canvas"]');
+          const loader = hero.querySelector('[data-hero="loader"]');
           const textOne = hero.querySelector('[data-hero-text="one"]');
           const textTwo = hero.querySelector('[data-hero-text="two"]');
           const textThree = hero.querySelector('[data-hero-text="three"]');
           const ctx = canvas ? canvas.getContext('2d') : null;
-          if (!container || !canvas || !ctx) return;
+          if (!canvas || !ctx) return;
 
           const totalFrames = 240;
           const images = new Array(totalFrames);
           let loadedFrames = 0;
+          let progress = 0;
           let currentFrame = 1;
+          let isLocked = false;
+          let lockedScrollY = 0;
+          let lastTouchY = null;
+          let isRendering = false;
+          let lastScrollY = window.scrollY;
+          const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
           const clamp = (value, min = 0, max = 1) => Math.min(Math.max(value, min), max);
 
@@ -860,15 +864,24 @@
 
             const imageRatio = image.naturalWidth / image.naturalHeight;
             const canvasRatio = width / height;
+            const useContain = window.innerWidth <= 768;
             let drawWidth = width;
             let drawHeight = height;
 
-            if (imageRatio > canvasRatio) {
-              drawWidth = width;
-              drawHeight = width / imageRatio;
-            } else {
+            if (useContain) {
+              if (imageRatio > canvasRatio) {
+                drawWidth = width;
+                drawHeight = width / imageRatio;
+              } else {
+                drawHeight = height;
+                drawWidth = height * imageRatio;
+              }
+            } else if (imageRatio > canvasRatio) {
               drawHeight = height;
               drawWidth = height * imageRatio;
+            } else {
+              drawWidth = width;
+              drawHeight = width / imageRatio;
             }
 
             const x = (width - drawWidth) / 2;
@@ -880,53 +893,106 @@
             const ratio = window.devicePixelRatio || 1;
             const width = window.innerWidth;
             const height = window.innerHeight;
-            canvas.width = width * ratio;
-            canvas.height = height * ratio;
+            canvas.width = Math.floor(width * ratio);
+            canvas.height = Math.floor(height * ratio);
             canvas.style.width = `${width}px`;
             canvas.style.height = `${height}px`;
             ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-            drawFrame(currentFrame);
+            requestRender();
           };
 
-          const fadeRange = (progress, start, end, fade = 0.06) => {
-            if (progress < start || progress > end) return 0;
+          const fadeRange = (value, start, end, fade = 0.06) => {
+            if (value < start || value > end) return 0;
             const fadeInEnd = start + fade;
             const fadeOutStart = end - fade;
-            if (progress <= fadeInEnd) {
-              return clamp((progress - start) / fade);
+            if (value <= fadeInEnd) {
+              return clamp((value - start) / fade);
             }
-            if (progress >= fadeOutStart) {
-              return clamp((end - progress) / fade);
+            if (value >= fadeOutStart) {
+              return clamp((end - value) / fade);
             }
             return 1;
           };
 
-          const updateTextOpacity = (progress) => {
-            if (textOne) textOne.style.opacity = fadeRange(progress, 0.05, 0.28);
-            if (textTwo) textTwo.style.opacity = fadeRange(progress, 0.35, 0.58);
-            if (textThree) textThree.style.opacity = fadeRange(progress, 0.64, 0.88);
+          const updateTextOpacity = (value) => {
+            if (textOne) textOne.style.opacity = fadeRange(value, 0.05, 0.28);
+            if (textTwo) textTwo.style.opacity = fadeRange(value, 0.35, 0.58);
+            if (textThree) textThree.style.opacity = fadeRange(value, 0.64, 0.88);
           };
 
-          const updateFrame = () => {
-            const totalScroll = container.offsetHeight - window.innerHeight;
-            const rect = container.getBoundingClientRect();
-            const progress = totalScroll > 0 ? clamp(-rect.top / totalScroll) : 0;
+          const render = () => {
+            isRendering = false;
             const frameIndex = Math.round(progress * (totalFrames - 1)) + 1;
             if (frameIndex !== currentFrame) {
               currentFrame = frameIndex;
-              drawFrame(currentFrame);
             }
+            drawFrame(currentFrame);
             updateTextOpacity(progress);
           };
 
-          let ticking = false;
-          const onScroll = () => {
-            if (ticking) return;
-            ticking = true;
-            requestAnimationFrame(() => {
-              ticking = false;
-              updateFrame();
-            });
+          const requestRender = () => {
+            if (isRendering) return;
+            isRendering = true;
+            requestAnimationFrame(render);
+          };
+
+          const setProgress = (nextValue) => {
+            progress = clamp(nextValue);
+            requestRender();
+            if (progress >= 1) {
+              unlockScroll();
+            }
+          };
+
+          const getDeltaProgress = (delta) => delta / (window.innerHeight * 1.2);
+
+          const lockScroll = () => {
+            if (isLocked || prefersReducedMotion) return;
+            isLocked = true;
+            lockedScrollY = hero.offsetTop;
+            document.body.style.overflow = 'hidden';
+            document.documentElement.style.overflow = 'hidden';
+            window.scrollTo(0, lockedScrollY);
+          };
+
+          const unlockScroll = () => {
+            if (!isLocked) return;
+            isLocked = false;
+            document.body.style.overflow = '';
+            document.documentElement.style.overflow = '';
+          };
+
+          const handleWheel = (event) => {
+            if (!isLocked) return;
+            event.preventDefault();
+            setProgress(progress + getDeltaProgress(event.deltaY));
+          };
+
+          const handleTouchStart = (event) => {
+            if (!isLocked) return;
+            lastTouchY = event.touches[0].clientY;
+          };
+
+          const handleTouchMove = (event) => {
+            if (!isLocked || lastTouchY === null) return;
+            const currentY = event.touches[0].clientY;
+            const delta = lastTouchY - currentY;
+            lastTouchY = currentY;
+            event.preventDefault();
+            setProgress(progress + getDeltaProgress(delta));
+          };
+
+          const updateLockState = () => {
+            if (prefersReducedMotion) return;
+            const rect = hero.getBoundingClientRect();
+            const inView = rect.top <= 0 && rect.bottom >= 0;
+            const scrollingUp = window.scrollY < lastScrollY;
+            lastScrollY = window.scrollY;
+            if (inView && (progress < 1 || scrollingUp)) {
+              lockScroll();
+            } else {
+              unlockScroll();
+            }
           };
 
           for (let i = 1; i <= totalFrames; i += 1) {
@@ -936,6 +1002,7 @@
               loadedFrames += 1;
               if (i === 1) {
                 drawFrame(1);
+                updateTextOpacity(0);
               }
               if (loadedFrames === totalFrames) {
                 setLoaderVisible(false);
@@ -945,12 +1012,20 @@
           }
 
           resizeCanvas();
-          updateFrame();
+          if (prefersReducedMotion) {
+            setProgress(0);
+            updateTextOpacity(0);
+          } else {
+            updateLockState();
+          }
+
           window.addEventListener('resize', () => {
             resizeCanvas();
-            updateFrame();
           });
-          window.addEventListener('scroll', onScroll, { passive: true });
+          window.addEventListener('scroll', updateLockState, { passive: true });
+          window.addEventListener('wheel', handleWheel, { passive: false });
+          window.addEventListener('touchstart', handleTouchStart, { passive: false });
+          window.addEventListener('touchmove', handleTouchMove, { passive: false });
         })();
       </script>
     </section>
